@@ -64,5 +64,7 @@ MonoBehaviour:
   - RPC_DisableStartInput
   - RPC_SetMasterClient
   - RPC_PostNotification
+  - RPC_EndEnemyEncounter
+  - RPC_NewEnemyEncounter
   DisableAutoOpenWizard: 1
   ShowSettings: 1

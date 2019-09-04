@@ -10,11 +10,13 @@ using UnityEngine;
     public PhotonView[] listOfPlayersPlaying;
 
     public PhotonView photon_view;
+    public EventManager event_manager;
     //Conditions for match to begin
     int min_players_max_players = 2;
 
     //Game state
     public bool is_adventure_started = false;
+    public bool is_in_event = false;
     public bool is_synchronizing_players = false;
 
     public static GameManager instance;
@@ -25,8 +27,6 @@ using UnityEngine;
 
     //START - THE BEGINNING OF THE ADVENTURE
     public void StartGame() {
-        //PhotonNetwork.SetMasterClient(PhotonNetwork.LocalPlayer);
-        //Debug.Log(PhotonNetwork.LocalPlayer.NickName + "  " + PhotonNetwork.MasterClient.NickName);
         photon_view.RPC("RPC_StartGame",RpcTarget.AllViaServer);
     }
     [PunRPC] void RPC_StartGame() {
@@ -40,6 +40,7 @@ using UnityEngine;
         for (int i = 0; i < listOfPlayersPlaying.Length; i++)
             if (listOfPlayersPlaying[i] != null)
                 listOfPlayersPlaying[i].RPC("RPC_DisableStartInput",RpcTarget.All);
+        event_manager.NewEnemyEncounter();
     }
     //SET MASTER CLIENT
     public void SetMasterClient(string user_id){

@@ -35,9 +35,10 @@ using System;
 
     //START - THE BEGGINING OF THE ADVENTURE
     public void InputStartGame(){
-        if(!GameManager.instance.is_adventure_started)
-            GameManager.instance.StartGame();
+        if(GameManager.instance.is_adventure_started)
+            return;
         GameManager.instance.SetMasterClient(PhotonNetwork.LocalPlayer.UserId);
+        GameManager.instance.StartGame();
     }
 
     //SETUP - BEFORE THE ADVENTURE GET STARTED
@@ -79,15 +80,21 @@ using System;
     public void ChooseCharacter(int character_id){
         photon_view.RPC("RPC_ChooseCharacter",RpcTarget.AllBuffered,BitConverter.GetBytes(character_id));
     }
-    [PunRPC]public void RPC_ChooseCharacter(byte[] id_byte){
+    [PunRPC]void RPC_ChooseCharacter(byte[] id_byte){
+        StartCoroutine(ChooseCharacterRoutine(id_byte));
+    }
+    IEnumerator ChooseCharacterRoutine(byte[] id_byte) {
         data.character_id = BitConverter.ToInt32(id_byte,0);
-        data.is_playing = true;
+        while(GameManager.instance.is_in_event)
+            yield return null;
         player_view.ToggleAvatar(data.character_id);
+        data.is_playing = true;
         if(!photon_view.IsMine)
-            return;
+            yield break;
 
         if(!GameManager.instance.is_adventure_started)
             player_view.ToggleStartInput(true);
+        yield break;
     }
     public void UpdateGUI() {
         Debug.Log("Updated GUI");
