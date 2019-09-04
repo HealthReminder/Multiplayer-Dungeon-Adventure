@@ -62,5 +62,7 @@ MonoBehaviour:
   - RPC_ChooseCharacter
   - RPC_StartGame
   - RPC_DisableStartInput
+  - RPC_SetMasterClient
+  - RPC_PostNotification
   DisableAutoOpenWizard: 1
   ShowSettings: 1

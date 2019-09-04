@@ -83,7 +83,8 @@ public class PhotonLobbyController : MonoBehaviourPunCallbacks
         RoomOptions roomOptions = new RoomOptions() {
             IsVisible = true,
             IsOpen = true,
-            MaxPlayers = (byte)MultiplayerSettings.instance.maxPlayers
+            MaxPlayers = (byte)MultiplayerSettings.instance.maxPlayers,
+            PublishUserId = true
         };
         PhotonNetwork.CreateRoom("Room"+randomRoomID, roomOptions); 
     }

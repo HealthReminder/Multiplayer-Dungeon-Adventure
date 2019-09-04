@@ -41,7 +41,25 @@ using UnityEngine;
             if (listOfPlayersPlaying[i] != null)
                 listOfPlayersPlaying[i].RPC("RPC_DisableStartInput",RpcTarget.All);
     }
+    //SET MASTER CLIENT
+    public void SetMasterClient(string user_id){
+        photon_view.RPC("RPC_SetMasterClient",RpcTarget.AllViaServer,System.Text.Encoding.UTF8.GetBytes(user_id));
+    }
+    [PunRPC]void RPC_SetMasterClient(byte[] user_id_bytes) {
+        string received_user =  System.Text.Encoding.UTF8.GetString(user_id_bytes);
+        var p = PhotonNetwork.MasterClient;
+        CommunicationManager.instance.PostNotification("Received host: "+received_user);
+        CommunicationManager.instance.PostNotification("Current host: "+p.UserId);
+        foreach (var i in PhotonNetwork.PlayerList)
+            if(i.UserId == received_user)
+                p = i;
+        CommunicationManager.instance.PostNotification("New host: "+p.UserId);
+        PhotonNetwork.SetMasterClient(p);
+        CommunicationManager.instance.PostNotification("Set host: "+p.UserId);
+    }
 
+    //SYNCHRONIZATION AND CALLBACKS
+    
     private void Update () {
         //This will ensure that every player is in the game before starting the game loop
         //This is fed by the room controller

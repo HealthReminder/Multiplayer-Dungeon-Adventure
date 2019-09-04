@@ -37,6 +37,7 @@ using System;
     public void InputStartGame(){
         if(!GameManager.instance.is_adventure_started)
             GameManager.instance.StartGame();
+        GameManager.instance.SetMasterClient(PhotonNetwork.LocalPlayer.UserId);
     }
 
     //SETUP - BEFORE THE ADVENTURE GET STARTED
@@ -62,6 +63,7 @@ using System;
         Debug.Log("RPC_PlayerSetup");        
         //Here is where you setup the player
         if(!photon_view.IsMine){
+            PhotonNetwork.AuthValues = new Photon.Realtime.AuthenticationValues((UnityEngine.Random.Range(99,99999)).ToString());
             player_camera.gameObject.SetActive(false);
         } else {
             data.is_playing = false;
