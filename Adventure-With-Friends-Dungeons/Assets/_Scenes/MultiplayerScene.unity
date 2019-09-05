@@ -314,11 +314,11 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 295717474}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: -1.99, z: 0}
+  m_LocalPosition: {x: 0, y: -3.78, z: 0}
   m_LocalScale: {x: 8.175, y: 3.040514, z: 1}
   m_Children: []
-  m_Father: {fileID: 0}
-  m_RootOrder: 7
+  m_Father: {fileID: 1329767881}
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &368476996
 GameObject:
@@ -959,7 +959,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1329767881}
-  - component: {fileID: 1329767882}
   - component: {fileID: 1329767883}
   m_Layer: 0
   m_Name: ScenaryView
@@ -980,31 +979,10 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 258036660}
+  - {fileID: 295717476}
   m_Father: {fileID: 0}
   m_RootOrder: 6
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1329767882
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1329767880}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c56b9d528d3d5f8458d9b0a91d8b393a, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  sprite_test: {fileID: 21300000, guid: a8852e2594abeea48a93e0ea0181b189, type: 3}
-  qtd_at_once_test: 3
-  object_template: {fileID: 258036659}
-  vertical_movement_curve:
-    serializedVersion: 2
-    m_Curve: []
-    m_PreInfinity: 2
-    m_PostInfinity: 2
-    m_RotationOrder: 4
-  is_moving: 0
 --- !u!114 &1329767883
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1018,8 +996,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   obj_prefab: {fileID: 258036659}
-  is_moving: 1
-  speed: 0.28
+  current_speed: 0
   movement_curve:
     serializedVersion: 2
     m_Curve:
@@ -1070,7 +1047,7 @@ MonoBehaviour:
     m_RotationOrder: 4
   min_y: 0.23
   offsetx: 1
-  max_x: 4.74
+  max_x: 5.2
 --- !u!1 &1360401205
 GameObject:
   m_ObjectHideFlags: 0
@@ -1293,6 +1270,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: PhotonNetworkPlayer
+      objectReference: {fileID: 0}
+    - target: {fileID: 1989414464114271602, guid: 8f4a88a01e665cb46816cfc2f0fa6773,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1989414464114271601, guid: 8f4a88a01e665cb46816cfc2f0fa6773,
         type: 3}

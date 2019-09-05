@@ -4,42 +4,100 @@ using UnityEngine;
 
 public class ScenaryView : MonoBehaviour
 {
-    public Sprite sprite_test;
-    public int qtd_at_once_test = 3;
-    public GameObject object_template;
-    public AnimationCurve vertical_movement_curve;
-    public bool is_moving = false;
-    List<Transform> current_objects;
-    private void Awake() {
-        SetupScenary(sprite_test,qtd_at_once_test);
+    public GameObject obj_prefab;
+    struct ScenaryObject {
+        public GameObject gameObject;
+        public float percentage;
+        public SpriteRenderer sprt;
     }
-    void SetupScenary(Sprite object_sprite, float qtd_at_once){
-        if(current_objects == null)
-            current_objects = new List<Transform>();
-        //Remove extra objects
-        while(current_objects.Count > qtd_at_once){
-            Destroy(current_objects[current_objects.Count-1].gameObject);
-            current_objects.RemoveAt(current_objects.Count-1);
+    public float current_speed = 3;
+    ScenaryObject[] scenary_objects;
+    public AnimationCurve movement_curve;
+    public AnimationCurve size_curve;
+    private void Start() {
+        Setup(10);
+        StartCoroutine(MovementRoutine());
+    }
+    [Range(-0.5f,0.5f)] 
+    public float min_y;
+    public float offsetx,max_x;
+    public void ToggleMovement(float target_speed) {
+        StartCoroutine(ToggleMovementRoutine(target_speed,1));
+    }
+    
+    bool is_moving = false;
+    public IEnumerator ToggleMovementRoutine(float target_speed,float step) {
+        is_moving = false;
+        yield return null;
+        is_moving = true;
+        if(current_speed < target_speed){
+            while(current_speed < target_speed && is_moving) {
+                current_speed+=step*Time.deltaTime;
+                yield return null;
+            }
+        } else if (current_speed > target_speed && is_moving) {
+            while(current_speed > target_speed) {
+                current_speed-=step*Time.deltaTime;
+                yield return null;
+            }
         }
-        //Add missing objects
-        while(current_objects.Count < qtd_at_once){
-            GameObject new_object = Instantiate(object_template,transform.position, Quaternion.identity);
-            Transform new_transform = new_object.transform;
-            new_transform.parent = transform;
-            current_objects.Add(new_transform);
+        current_speed = target_speed;
+        yield break;
+    }
+    IEnumerator MovementRoutine() {
+        while(true){
+            for (int i = 0; i < scenary_objects.Length; i++)
+            {
+                scenary_objects[i].percentage += Time.deltaTime*current_speed;
+                if(scenary_objects[i].percentage > 1)
+                    scenary_objects[i].percentage = 0;
+                Transform t = scenary_objects[i].gameObject.transform;
+                if(i%2 == 0)
+                    t.position = transform.position + new Vector3(-offsetx-scenary_objects[i].percentage*max_x,movement_curve.Evaluate(1-scenary_objects[i].percentage)*min_y,0);
+                else
+                    t.position = transform.position + new Vector3(offsetx+scenary_objects[i].percentage*max_x,movement_curve.Evaluate(1-scenary_objects[i].percentage)*min_y,0);
+                
+                t.localScale = new Vector3(3*size_curve.Evaluate(scenary_objects[i].percentage),3*size_curve.Evaluate(scenary_objects[i].percentage),1);
+                scenary_objects[i].sprt.sortingOrder = (int)((scenary_objects[i].percentage*100)-100);
+                scenary_objects[i].sprt.color = new Color(1*size_curve.Evaluate(scenary_objects[i].percentage),1*size_curve.Evaluate(scenary_objects[i].percentage),1*size_curve.Evaluate(scenary_objects[i].percentage),1);
+                
+            }
+            yield return null;
         }
     }
-    int current_index;
-    private void Update() {
-        if(is_moving)
-            MoveScenary(qtd_at_once_test);
-    }
-    void MoveScenary(int qtd) {
-        float max_x = 3;
-        for (int i = 0; i < current_objects.Count; i++)
-        {
-            //current_objects[i].transform.position = new Vector3(max_x*)
+    private void Setup(int objectQuantity) {
 
+        float current_percentage = 0;
+        float offset_objects = 1f/objectQuantity;
+        //min_y = -3;
+        //offsetx = 1;
+        //max_x = 10;
+
+        scenary_objects = new ScenaryObject[objectQuantity];
+        for (int i = 0; i < scenary_objects.Length; i++)
+        {
+            print(current_percentage +" "+ movement_curve.Evaluate(current_percentage) +" "+ offset_objects);
+            ScenaryObject o = new ScenaryObject();
+            o.percentage = current_percentage;
+            o.gameObject = Instantiate(obj_prefab,transform.position,Quaternion.identity);
+            o.sprt = o.gameObject.GetComponent<SpriteRenderer>();
+            scenary_objects[i] = o;
+            Transform t = scenary_objects[i].gameObject.transform;
+            if(i%2 == 0)
+                t.position = transform.position + new Vector3(-offsetx-current_percentage*max_x,movement_curve.Evaluate(1-current_percentage)*min_y,0);
+            else
+                t.position = transform.position + new Vector3(offsetx+current_percentage*max_x,movement_curve.Evaluate(1-current_percentage)*min_y,0);
+            
+            t.localScale = new Vector3(3*size_curve.Evaluate(current_percentage),3*size_curve.Evaluate(current_percentage),1);
+            scenary_objects[i].gameObject.SetActive(true);
+            scenary_objects[i].percentage = current_percentage;
+            
+            if(i%2 != 0)
+                current_percentage += offset_objects*2;
         }
     }
+    private void Awake() {
+        instance = this;
+    }
+    public static ScenaryView instance;
 }
