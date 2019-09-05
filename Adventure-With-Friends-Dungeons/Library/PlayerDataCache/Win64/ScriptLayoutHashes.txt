@@ -179,6 +179,7 @@ ad9173d3a69d99153f38ed4b62226129 UnityEngine.Networking.dll:UnityEngine.Networki
 5887ef1bc706b22b773d253fd443ceef UnityEngine.Networking.dll:UnityEngine.Networking.NetworkTransformVisualizer
 4ce15e99c635d2567873d27549d1f16f PhotonUnityNetworking.Utilities.dll:Photon.Pun.UtilityScripts.PointedAtGameObjectInfo
 510fefd6a544e16a3ffefa557ddcba39 Unity.TextMeshPro.dll:TMPro.PackageResourceImporterWindow
+ee832a45b8419e0887e7f36ebd689ba6 Assembly-CSharp.dll:.EventManager
 86562a09fa76699b879f22267efd41b0 Assembly-CSharp.dll:.GameManager
 aa82b3ce4c0c9b227036c0337315c5d3 Unity.TextMeshPro.dll:TMPro.TMP_FontAsset
 e51c09a4cc447f11db225afcd8e3e490 Unity.TextMeshPro.dll:TMPro.TMP_Settings
@@ -221,4 +222,4 @@ d9864ada3db659b8d6f66a20aff414b3 PhotonUnityNetworking.dll:Photon.Pun.PhotonView
 0e2928038e6639717e30f0a0d310715b Assembly-CSharp.dll:.ObjectDataSingleton
 f229dded685981754d75075e87fdac62 Assembly-CSharp.dll:.LobbyView
 c8283c7732e3b6aa70d28f1fed4430ca PhotonUnityNetworking.Utilities.dll:Photon.Pun.UtilityScripts.CountdownTimer
-ee832a45b8419e0887e7f36ebd689ba6 Assembly-CSharp.dll:.EventManager
+ccaec6a09624b6b06c1ac24cc691c9cb Assembly-CSharp.dll:.ScenaryView
