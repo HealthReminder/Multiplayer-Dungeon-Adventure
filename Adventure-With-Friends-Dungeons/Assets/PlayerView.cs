@@ -1,12 +1,19 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class PlayerView : MonoBehaviour
 {
     public PlayerManager player_manager;
+    [Header("Start Adventure")]
     public GameObject start_input_container;
+    [Header("Char Selection")]
     public GameObject[] chars_available;
+
+    [Header("Overlay")]
+    public Image overlay_img;
+    public Text waiting_text;
     
 
     //START
@@ -16,6 +23,26 @@ public class PlayerView : MonoBehaviour
             start_input_container.SetActive(true);
         else
             start_input_container.SetActive(false);
+    }
+    
+    public void FadeOverlay(float fade_to, float step) {
+        StartCoroutine(FadeOverlayRoutine(fade_to,step));
+    }
+    IEnumerator FadeOverlayRoutine(float fade_to, float step) {
+        if(overlay_img.color.a < fade_to)
+            while(overlay_img.color.a < fade_to){
+                overlay_img.color += new Color(0,0,0,step*Time.deltaTime);
+                waiting_text.color += new Color(0,0,0,step*Time.deltaTime);
+                yield return null;
+            }
+        else 
+            while(overlay_img.color.a > fade_to){
+                overlay_img.color += new Color(0,0,0,-step*Time.deltaTime);
+                waiting_text.color += new Color(0,0,0,-step*Time.deltaTime);
+                yield return null;
+            }
+        overlay_img.color += new Color(0,0,0,fade_to);
+        yield break;
     }
 
     //CHARACTER SELECTION

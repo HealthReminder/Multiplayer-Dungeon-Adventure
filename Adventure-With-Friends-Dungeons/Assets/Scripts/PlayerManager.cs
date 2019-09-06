@@ -4,7 +4,7 @@ using UnityEngine;
 using Photon.Pun;
 using Photon;
 using System;
-
+using UnityEngine.UI;
 [System.Serializable] public class PlayerData {
     public int character_id;
     public bool is_playing = false;
@@ -22,7 +22,10 @@ using System;
     public PlayerView player_view;
     public Camera player_camera;
     private void Start() {
+        if(!photonView.IsMine) 
+            return;
         StartCoroutine(WaitSetup(1));
+        player_view.FadeOverlay(1,1000);
     }  
 
     private void Update() {
@@ -44,6 +47,8 @@ using System;
     //SETUP - BEFORE THE ADVENTURE GET STARTED
     IEnumerator WaitSetup(float seconds){
         yield return new WaitForSeconds(seconds);
+        if(!GameManager.instance.is_in_event)
+            player_view.FadeOverlay(0,2);
         Setup();
         yield break;
     }
@@ -64,7 +69,7 @@ using System;
         Debug.Log("RPC_PlayerSetup");        
         //Here is where you setup the player
         if(!photon_view.IsMine){
-            PhotonNetwork.AuthValues = new Photon.Realtime.AuthenticationValues((UnityEngine.Random.Range(99,99999)).ToString());
+            //PhotonNetwork.AuthValues = new Photon.Realtime.AuthenticationValues((UnityEngine.Random.Range(99,99999)).ToString());
             player_camera.gameObject.SetActive(false);
         } else {
             data.is_playing = false;
@@ -87,6 +92,7 @@ using System;
         data.character_id = BitConverter.ToInt32(id_byte,0);
         while(GameManager.instance.is_in_event)
             yield return null;
+        player_view.FadeOverlay(0,2);
         player_view.ToggleAvatar(data.character_id);
         data.is_playing = true;
         if(!photon_view.IsMine)

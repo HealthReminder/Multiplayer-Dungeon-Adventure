@@ -101,6 +101,7 @@ using UnityEngine;
                 BitConverter.GetBytes(ps.Length),
                 //game
                 BitConverter.GetBytes(is_adventure_started),
+                BitConverter.GetBytes(is_in_event),
                 //data
                 BitConverter.GetBytes(d.character_id),
                 BitConverter.GetBytes(d.is_playing)
@@ -108,7 +109,7 @@ using UnityEngine;
         }
     }
 
-    [PunRPC] public void RPC_SynchronizePlayer (byte[] viewIDBytes, byte[] indexBytes, byte[] listSizeBytes,byte[] is_started_byte, byte[] data_character_id_byte, byte[] is_playing_byte) {
+    [PunRPC] public void RPC_SynchronizePlayer (byte[] viewIDBytes, byte[] indexBytes, byte[] listSizeBytes,byte[] is_started_byte,byte[] is_event_byte, byte[] data_character_id_byte, byte[] is_playing_byte) {
         Debug.Log ("RPC_SynchronizePlayer");
         is_synchronizing_players = true;
         
@@ -117,10 +118,12 @@ using UnityEngine;
         PhotonView receivedPlayer = PhotonNetwork.GetPhotonView (receivedViewId);
         int receivedIndex = BitConverter.ToInt32 (indexBytes, 0);
         int receivedSize = BitConverter.ToInt32 (listSizeBytes, 0);
-        bool is_playing = BitConverter.ToBoolean(is_playing_byte,0);
-        bool is_started = BitConverter.ToBoolean(is_started_byte,0);
+        bool playing = BitConverter.ToBoolean(is_playing_byte,0);
+        bool started = BitConverter.ToBoolean(is_started_byte,0);
+        bool in_event = BitConverter.ToBoolean(is_event_byte,0);
 
-        is_adventure_started = is_started;
+        is_in_event = in_event;
+        is_adventure_started = started;
 
         PlayerManager received_manager = receivedPlayer.GetComponent<PlayerManager> ();
         received_manager.playerID = receivedIndex;
@@ -128,7 +131,7 @@ using UnityEngine;
 
         //data
         received_manager.data.character_id = BitConverter.ToInt32(data_character_id_byte,0);
-        received_manager.data.is_playing = is_playing;
+        received_manager.data.is_playing = playing;
 
         //Update GUI
         received_manager.UpdateGUI();
