@@ -6,8 +6,9 @@ using UnityEngine.UI;
 public class PlayerView : MonoBehaviour
 {
     public PlayerManager player_manager;
-    [Header("Start Adventure")]
+    [Header("Adventure")]
     public GameObject start_input_container;
+    public GameObject next_input_container;
     [Header("Char Selection")]
     public GameObject[] chars_available;
 
@@ -15,7 +16,14 @@ public class PlayerView : MonoBehaviour
     public Image overlay_img;
     public Text waiting_text;
     
-
+    //MIDDLE
+    public void ToggleNextInput(bool is_on) {
+        Debug.Log("Toggled next input for "+is_on);
+        if(is_on)
+            next_input_container.SetActive(true);
+        else
+            next_input_container.SetActive(false);
+    }
     //START
     public void ToggleStartInput(bool is_on) {
         Debug.Log("Toggled start input for "+is_on);

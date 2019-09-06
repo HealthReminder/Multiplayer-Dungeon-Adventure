@@ -148,7 +148,7 @@ e7aa62e1f291228958626e122c23c8f0 PhotonUnityNetworking.Utilities.dll:Photon.Pun.
 b3ab2106268377ffe25dd18ac23dca28 Unity.TextMeshPro.dll:TMPro.TMP_Asset
 71bb6a6b6c8f052f948db64c7dd3ca4f Assembly-CSharp-firstpass.dll:Photon.Chat.UtilityScripts.EventSystemSpawner
 57d2b3ca58a430f7cf319bb757c1f0f5 PhotonUnityNetworking.Utilities.dll:Photon.Pun.UtilityScripts.OnClickInstantiate
-00cefdab1f7a0dc0e51febaf3e9f2b45 Assembly-CSharp.dll:.PlayerView
+449a97a34f3304d2201185840b9d333d Assembly-CSharp.dll:.PlayerView
 7602c8d40ade510f4c0e781c7062b246 Assembly-CSharp-firstpass.dll:.ChannelSelector
 58f2afabd5040e886cc4670a75b8765c PhotonUnityNetworking.Utilities.dll:Photon.Pun.UtilityScripts.StatesGui
 0927e41b46e1bd11671f9b5adda4b832 PhotonUnityNetworking.dll:Photon.Pun.PhotonRigidbodyView
@@ -181,8 +181,8 @@ ad9173d3a69d99153f38ed4b62226129 UnityEngine.Networking.dll:UnityEngine.Networki
 ba9623d6a5887196b969e9a15e0fe932 Assembly-CSharp.dll:.ScenaryView
 4ce15e99c635d2567873d27549d1f16f PhotonUnityNetworking.Utilities.dll:Photon.Pun.UtilityScripts.PointedAtGameObjectInfo
 510fefd6a544e16a3ffefa557ddcba39 Unity.TextMeshPro.dll:TMPro.PackageResourceImporterWindow
-ee832a45b8419e0887e7f36ebd689ba6 Assembly-CSharp.dll:.EventManager
-86562a09fa76699b879f22267efd41b0 Assembly-CSharp.dll:.GameManager
+005968919ff553adc1fba0ab9a52bb21 Assembly-CSharp.dll:.EventManager
+a9c81c2d968eb519a9fd4a098363203b Assembly-CSharp.dll:.GameManager
 aa82b3ce4c0c9b227036c0337315c5d3 Unity.TextMeshPro.dll:TMPro.TMP_FontAsset
 e51c09a4cc447f11db225afcd8e3e490 Unity.TextMeshPro.dll:TMPro.TMP_Settings
 88cc9df3c6fc697bfbeacd24c0d6f2d7 UnityEngine.TestRunner.dll:UnityEngine.TestTools.BeforeAfterTestCommandState

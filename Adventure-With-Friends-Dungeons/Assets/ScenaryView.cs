@@ -76,7 +76,7 @@ public class ScenaryView : MonoBehaviour
         scenary_objects = new ScenaryObject[objectQuantity];
         for (int i = 0; i < scenary_objects.Length; i++)
         {
-            print(current_percentage +" "+ movement_curve.Evaluate(current_percentage) +" "+ offset_objects);
+            //print(current_percentage +" "+ movement_curve.Evaluate(current_percentage) +" "+ offset_objects);
             ScenaryObject o = new ScenaryObject();
             o.percentage = current_percentage;
             o.gameObject = Instantiate(obj_prefab,transform.position,Quaternion.identity);

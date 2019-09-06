@@ -107,14 +107,12 @@ public class PhotonRoomController : MonoBehaviourPunCallbacks, IInRoomCallbacks 
     }
     public int lastView;
     [PunRPC]    private void RPC_CreatePlayer () {
-        Debug.Log("Trying to create player");
+        Debug.Log("Creating player");
         GameObject newPlayer = PhotonNetwork.Instantiate(Path.Combine("PhotonPrefabs","PhotonNetworkPlayer"),
         transform.position, Quaternion.identity, 0);
         int newPlayerView = newPlayer.GetComponent<PhotonView>().ViewID;
         byte[] viewByte = BitConverter.GetBytes(newPlayerView);
-        Debug.Log("Sending player array of "+viewByte.Length+" bytes");
-        Debug.Log(GameManager.instance.gameObject.name);
-        Debug.Log(GameManager.instance.photon_view.ViewID);        
+        //Debug.Log("Sending player array of "+viewByte.Length+" bytes");
         GameManager.instance.photon_view.RPC("RPC_AddPlayer",RpcTarget.AllBuffered,viewByte);
 
     }

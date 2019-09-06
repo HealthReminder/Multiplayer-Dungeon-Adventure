@@ -35,14 +35,41 @@ using UnityEngine.UI;
         if(!photon_view.IsMine)
             return;
     }
+    public void InputNext(){
+        Debug.Log("Input next");
+        if(!GameManager.instance.is_adventure_started)
+            return;
+        StartCoroutine(InputNextRoutine());
+    }
+    IEnumerator InputNextRoutine() {
+        if(GameManager.instance.is_migrating_host)
+            yield break;
+        GameManager.instance.is_migrating_host = true;
+        GameManager.instance.SetMasterClient(PhotonNetwork.LocalPlayer.UserId);
+        while(GameManager.instance.is_migrating_host)
+            yield return null;
+        GameManager.instance.AdventureNext();
+        yield break;
+    }
 
     //START - THE BEGGINING OF THE ADVENTURE
-    public void InputStartGame(){
+    public void InputStart(){
+        Debug.Log("Input start");
         if(GameManager.instance.is_adventure_started)
             return;
-        GameManager.instance.SetMasterClient(PhotonNetwork.LocalPlayer.UserId);
-        GameManager.instance.StartGame();
+        StartCoroutine(InputStartRoutine());
     }
+    IEnumerator InputStartRoutine() {
+        if(GameManager.instance.is_migrating_host)
+            yield break;
+        GameManager.instance.is_migrating_host = true;
+        GameManager.instance.SetMasterClient(PhotonNetwork.LocalPlayer.UserId);
+        while(GameManager.instance.is_migrating_host)
+            yield return null;
+        GameManager.instance.AdventureStart();
+        yield break;
+    }
+    
 
     //SETUP - BEFORE THE ADVENTURE GET STARTED
     IEnumerator WaitSetup(float seconds){
@@ -54,19 +81,16 @@ using UnityEngine.UI;
     }
     
     void Setup() {
-        Debug.Log("SETUP");
         if(!photon_view.IsMine)
             return;    
         photon_view.RPC("RPC_PlayerSetup",RpcTarget.All);
         PhotonView[] p_list = GameManager.instance.listOfPlayersPlaying;
-        Debug.Log("Begin loop");
         foreach (PhotonView p in p_list)
             p.GetComponent<PlayerManager>().RPC_PlayerSetup();
     }
     [PunRPC]public void RPC_PlayerSetup() {
         if(is_setup)
-            return;
-        Debug.Log("RPC_PlayerSetup");        
+            return;    
         //Here is where you setup the player
         if(!photon_view.IsMine){
             //PhotonNetwork.AuthValues = new Photon.Realtime.AuthenticationValues((UnityEngine.Random.Range(99,99999)).ToString());
@@ -81,6 +105,11 @@ using UnityEngine.UI;
     }
     [PunRPC] public void RPC_DisableStartInput() {
         player_view.ToggleStartInput(false);
+    }
+    [PunRPC] public void RPC_ToggleNextInput(byte[] on_bytes) {
+        if(!data.is_playing || !photonView.IsMine)
+            return;
+        player_view.ToggleNextInput(BitConverter.ToBoolean(on_bytes,0));
     }
     public void ChooseCharacter(int character_id){
         photon_view.RPC("RPC_ChooseCharacter",RpcTarget.AllBuffered,BitConverter.GetBytes(character_id));

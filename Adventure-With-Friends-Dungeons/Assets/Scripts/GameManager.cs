@@ -18,18 +18,48 @@ using UnityEngine;
     public bool is_adventure_started = false;
     public bool is_in_event = false;
     public bool is_synchronizing_players = false;
+    public bool is_migrating_host = false;
 
     public static GameManager instance;
     void Awake () {
         instance = this;
         photon_view = GetComponent<PhotonView> ();
     }
+    //MIDDLE - DURING THE ADVENTURE
+    IEnumerator EnableNextRoutine() {
+        yield return null;
+        while(is_in_event)
+            yield return null;
+        yield return new WaitForSeconds(2);
+        for (int i = 0; i < listOfPlayersPlaying.Length; i++)
+            if (listOfPlayersPlaying[i] != null)
+                listOfPlayersPlaying[i].RPC("RPC_ToggleNextInput",RpcTarget.All, BitConverter.GetBytes(true));
+        yield break;
+    }
+    public void AdventureNext() {
+        photon_view.RPC("RPC_AdventureNext",RpcTarget.AllViaServer);
+    }
+    [PunRPC] void RPC_AdventureNext() {
+        Debug.Log("RPC_AdventureNext");
+        if(!is_adventure_started)
+            return;
+        
+        if(!PhotonNetwork.IsMasterClient)
+            return;
+
+        for (int i = 0; i < listOfPlayersPlaying.Length; i++)
+            if (listOfPlayersPlaying[i] != null)
+                listOfPlayersPlaying[i].RPC("RPC_ToggleNextInput",RpcTarget.All,BitConverter.GetBytes(false));
+        event_manager.NewEnemyEncounter();
+        StartCoroutine(EnableNextRoutine());
+    }
 
     //START - THE BEGINNING OF THE ADVENTURE
-    public void StartGame() {
-        photon_view.RPC("RPC_StartGame",RpcTarget.AllViaServer);
+    public void AdventureStart() {
+        photon_view.RPC("RPC_AdventureStart",RpcTarget.AllViaServer);
     }
-    [PunRPC] void RPC_StartGame() {
+    [PunRPC] void RPC_AdventureStart() {
+        Debug.Log("RPC_AdventureStart");
         if(is_adventure_started)
             return;
         is_adventure_started = true;
@@ -41,12 +71,14 @@ using UnityEngine;
             if (listOfPlayersPlaying[i] != null)
                 listOfPlayersPlaying[i].RPC("RPC_DisableStartInput",RpcTarget.All);
         event_manager.NewEnemyEncounter();
+        StartCoroutine(EnableNextRoutine());
     }
     //SET MASTER CLIENT
     public void SetMasterClient(string user_id){
         photon_view.RPC("RPC_SetMasterClient",RpcTarget.AllViaServer,System.Text.Encoding.UTF8.GetBytes(user_id));
     }
     [PunRPC]void RPC_SetMasterClient(byte[] user_id_bytes) {
+        is_migrating_host = true;
         string received_user =  System.Text.Encoding.UTF8.GetString(user_id_bytes);
         var p = PhotonNetwork.MasterClient;
         CommunicationManager.instance.PostNotification("Received host: "+received_user);
@@ -57,6 +89,7 @@ using UnityEngine;
         CommunicationManager.instance.PostNotification("New host: "+p.UserId);
         PhotonNetwork.SetMasterClient(p);
         CommunicationManager.instance.PostNotification("Set host: "+p.UserId);
+        is_migrating_host = false;
     }
 
     //SYNCHRONIZATION AND CALLBACKS
@@ -102,6 +135,7 @@ using UnityEngine;
                 //game
                 BitConverter.GetBytes(is_adventure_started),
                 BitConverter.GetBytes(is_in_event),
+                BitConverter.GetBytes(event_manager.current_event),
                 //data
                 BitConverter.GetBytes(d.character_id),
                 BitConverter.GetBytes(d.is_playing)
@@ -109,7 +143,7 @@ using UnityEngine;
         }
     }
 
-    [PunRPC] public void RPC_SynchronizePlayer (byte[] viewIDBytes, byte[] indexBytes, byte[] listSizeBytes,byte[] is_started_byte,byte[] is_event_byte, byte[] data_character_id_byte, byte[] is_playing_byte) {
+    [PunRPC] public void RPC_SynchronizePlayer (byte[] viewIDBytes, byte[] indexBytes, byte[] listSizeBytes,byte[] is_started_byte,byte[] is_event_byte,byte[] event_id_byte, byte[] data_character_id_byte, byte[] is_playing_byte) {
         Debug.Log ("RPC_SynchronizePlayer");
         is_synchronizing_players = true;
         
@@ -121,7 +155,9 @@ using UnityEngine;
         bool playing = BitConverter.ToBoolean(is_playing_byte,0);
         bool started = BitConverter.ToBoolean(is_started_byte,0);
         bool in_event = BitConverter.ToBoolean(is_event_byte,0);
+        int event_id = BitConverter.ToInt32(event_id_byte,0);
 
+        event_manager.current_event = event_id;
         is_in_event = in_event;
         is_adventure_started = started;
 
