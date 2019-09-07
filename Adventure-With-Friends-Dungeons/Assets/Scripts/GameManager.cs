@@ -8,29 +8,43 @@ using UnityEngine;
 [System.Serializable] public class GameManager : MonoBehaviour {
 
     public PhotonView[] listOfPlayersPlaying;
-
     public PhotonView photon_view;
     public EventManager event_manager;
     //Conditions for match to begin
     int min_players_max_players = 2;
-
     //Game state
     public bool is_adventure_started = false;
     public bool is_in_event = false;
     public bool is_synchronizing_players = false;
     public bool is_migrating_host = false;
+    //Synch
+    public int received_updates = 0;
+    public int expected_updates = 0;
 
     public static GameManager instance;
     void Awake () {
         instance = this;
         photon_view = GetComponent<PhotonView> ();
     }
+    private void Update () {
+        //This will ensure that every player is in the game before starting the game loop
+        //This is fed by the room controller
+        if (!PhotonNetwork.IsMasterClient)
+            return;
+
+        for (int i = 0; i < listOfPlayersPlaying.Length; i++)
+            if (listOfPlayersPlaying[i] == null)
+                OnPlayerLeftRoom ();
+
+    }
+    
+#region Loop
     //MIDDLE - DURING THE ADVENTURE
     IEnumerator EnableNextRoutine() {
         yield return null;
         while(is_in_event)
             yield return null;
-        yield return new WaitForSeconds(2);
+        yield return new WaitForSeconds(1);
         for (int i = 0; i < listOfPlayersPlaying.Length; i++)
             if (listOfPlayersPlaying[i] != null)
                 listOfPlayersPlaying[i].RPC("RPC_ToggleNextInput",RpcTarget.All, BitConverter.GetBytes(true));
@@ -53,6 +67,8 @@ using UnityEngine;
         event_manager.NewEnemyEncounter();
         StartCoroutine(EnableNextRoutine());
     }
+#endregion
+#region Start
 
     //START - THE BEGINNING OF THE ADVENTURE
     public void AdventureStart() {
@@ -73,6 +89,8 @@ using UnityEngine;
         event_manager.NewEnemyEncounter();
         StartCoroutine(EnableNextRoutine());
     }
+#endregion
+#region Host migration
     //SET MASTER CLIENT
     public void SetMasterClient(string user_id){
         photon_view.RPC("RPC_SetMasterClient",RpcTarget.AllViaServer,System.Text.Encoding.UTF8.GetBytes(user_id));
@@ -91,20 +109,8 @@ using UnityEngine;
         CommunicationManager.instance.PostNotification("Set host: "+p.UserId);
         is_migrating_host = false;
     }
-
-    //SYNCHRONIZATION AND CALLBACKS
-    
-    private void Update () {
-        //This will ensure that every player is in the game before starting the game loop
-        //This is fed by the room controller
-        if (!PhotonNetwork.IsMasterClient)
-            return;
-
-        for (int i = 0; i < listOfPlayersPlaying.Length; i++)
-            if (listOfPlayersPlaying[i] == null)
-                OnPlayerLeftRoom ();
-
-    }
+#endregion
+#region Player in Room
     public void OnPlayerLeftRoom () {
         Debug.Log ("A player left the room.");
         if (!PhotonNetwork.IsMasterClient)
@@ -125,6 +131,40 @@ using UnityEngine;
 
         SynchronizeAllPlayers(listOfPlayersPlaying);
     }
+    [PunRPC] public void RPC_AddPlayer (byte[] viewBytes) {
+        //This function is responsible for adding the player to the listOfPlayersPlaying 
+        //So the update function can start the match when all the players have loaded the room properly
+        int newPlayerIndex = -1;
+        if (listOfPlayersPlaying == null || listOfPlayersPlaying.Length <= 0) {
+            listOfPlayersPlaying = new PhotonView[1];
+            newPlayerIndex = 0;
+        } else {
+            PhotonView[] newList = new PhotonView[listOfPlayersPlaying.Length + 1];
+            newPlayerIndex = listOfPlayersPlaying.Length;
+
+            for (int i = 0; i < listOfPlayersPlaying.Length; i++) {
+                newList[i] = listOfPlayersPlaying[i];
+            }
+            listOfPlayersPlaying = newList;
+            Debug.Log ("Created new array");
+        }
+
+        //Deserialize information to get the viewID so the player PhotonView can be found in the network
+        //And added to the player list and also be setup
+        int receivedPhotonViewID = BitConverter.ToInt32 (viewBytes, 0);
+        Debug.Log ("Player " + receivedPhotonViewID + " joined the room with ID of " + newPlayerIndex);
+
+        PhotonView playerView = PhotonNetwork.GetPhotonView (receivedPhotonViewID);
+        Debug.Log ("Adding new player with index of " + newPlayerIndex + " to the list of size " + listOfPlayersPlaying.Length);
+        listOfPlayersPlaying[newPlayerIndex] = playerView;
+
+        if (!PhotonNetwork.IsMasterClient)
+            return;
+        
+        SynchronizeAllPlayers(listOfPlayersPlaying);
+    }
+#endregion
+#region Synchronization
     public void SynchronizeAllPlayers(PhotonView[] ps){
         for (int i = 0; i < ps.Length; i++){
             PlayerData d = ps[i].GetComponent<PlayerManager>().data;
@@ -181,38 +221,5 @@ using UnityEngine;
         is_synchronizing_players = false;
         Debug.Log ("Finished synchronizing player data");
     }
-
-    [PunRPC] public void RPC_AddPlayer (byte[] viewBytes) {
-        //This function is responsible for adding the player to the listOfPlayersPlaying 
-        //So the update function can start the match when all the players have loaded the room properly
-        int newPlayerIndex = -1;
-        if (listOfPlayersPlaying == null || listOfPlayersPlaying.Length <= 0) {
-            listOfPlayersPlaying = new PhotonView[1];
-            newPlayerIndex = 0;
-        } else {
-            PhotonView[] newList = new PhotonView[listOfPlayersPlaying.Length + 1];
-            newPlayerIndex = listOfPlayersPlaying.Length;
-
-            for (int i = 0; i < listOfPlayersPlaying.Length; i++) {
-                newList[i] = listOfPlayersPlaying[i];
-            }
-            listOfPlayersPlaying = newList;
-            Debug.Log ("Created new array");
-        }
-
-        //Deserialize information to get the viewID so the player PhotonView can be found in the network
-        //And added to the player list and also be setup
-        int receivedPhotonViewID = BitConverter.ToInt32 (viewBytes, 0);
-        Debug.Log ("Player " + receivedPhotonViewID + " joined the room with ID of " + newPlayerIndex);
-
-        PhotonView playerView = PhotonNetwork.GetPhotonView (receivedPhotonViewID);
-        Debug.Log ("Adding new player with index of " + newPlayerIndex + " to the list of size " + listOfPlayersPlaying.Length);
-        listOfPlayersPlaying[newPlayerIndex] = playerView;
-
-        if (!PhotonNetwork.IsMasterClient)
-            return;
-        
-        SynchronizeAllPlayers(listOfPlayersPlaying);
-    }
-
+#endregion
 }

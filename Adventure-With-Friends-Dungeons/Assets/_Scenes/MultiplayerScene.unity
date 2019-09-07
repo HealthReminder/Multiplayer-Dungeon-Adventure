@@ -159,7 +159,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   player_manager: {fileID: 0}
   start_input_container: {fileID: 0}
+  next_input_container: {fileID: 0}
   chars_available: []
+  overlay_img: {fileID: 0}
+  waiting_text: {fileID: 0}
   character_avatar_rndr: {fileID: 447421012}
   character_selection_container: {fileID: 1479780546}
 --- !u!1 &258036659
@@ -415,11 +418,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b1f2d11f697af7b48a3b8de49dd7f339, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  available_characters:
-  - name: Mage
-    sprite: {fileID: 21300000, guid: b54b05866ea3a6f419a29683bdbf6061, type: 3}
-  - name: Cleric
-    sprite: {fileID: 21300000, guid: c619a1b93a8c41a4e80a1d1ccd22a3c3, type: 3}
 --- !u!4 &408781966
 Transform:
   m_ObjectHideFlags: 0
@@ -900,6 +898,9 @@ MonoBehaviour:
   is_adventure_started: 0
   is_in_event: 0
   is_synchronizing_players: 0
+  is_migrating_host: 0
+  received_updates: 0
+  expected_updates: 0
 --- !u!4 &1179419892
 Transform:
   m_ObjectHideFlags: 0
@@ -949,6 +950,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 852b2d2a7f442384cadbee6a731e4e03, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  current_event: 0
   photon_view: {fileID: 1179419893}
 --- !u!1 &1329767880
 GameObject:
@@ -961,7 +963,7 @@ GameObject:
   - component: {fileID: 1329767881}
   - component: {fileID: 1329767883}
   m_Layer: 0
-  m_Name: ScenaryView
+  m_Name: BackgroundView
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1045,9 +1047,9 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
-  min_y: 0.23
-  offsetx: 1
-  max_x: 5.2
+  min_y: 0.269
+  offsetx: 0.5
+  max_x: 10.1
 --- !u!1 &1360401205
 GameObject:
   m_ObjectHideFlags: 0
