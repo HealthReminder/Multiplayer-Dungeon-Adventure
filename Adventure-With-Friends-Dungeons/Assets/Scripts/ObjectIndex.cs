@@ -7,9 +7,9 @@ public class ObjectIndex : MonoBehaviour
     [System.Serializable] public struct CharacterData {
         public string name;
         public Sprite sprite;
+        public GameObject prefab;
     }
     [SerializeField] public CharacterData[] available_characters;
-
     public static ObjectIndex instance;
     private void Awake() {
         instance = this;

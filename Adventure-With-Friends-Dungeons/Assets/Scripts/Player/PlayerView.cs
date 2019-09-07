@@ -9,8 +9,6 @@ public class PlayerView : MonoBehaviour
     [Header("Adventure")]
     public GameObject start_input_container;
     public GameObject next_input_container;
-    [Header("Char Selection")]
-    public GameObject[] chars_available;
 
     [Header("Overlay")]
     public Image overlay_img;
@@ -56,10 +54,6 @@ public class PlayerView : MonoBehaviour
     //CHARACTER SELECTION
     [Header("Character Selection")]
     public SpriteRenderer character_avatar_rndr;
-    
-    public void ToggleAvatar(int char_id) {
-        chars_available[char_id].SetActive(true);
-    }
     public GameObject character_selection_container;
     int times_can_choose_character = 1;
     int times_chosen_character = 0;

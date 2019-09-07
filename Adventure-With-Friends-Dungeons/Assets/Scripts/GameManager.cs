@@ -7,7 +7,7 @@ using UnityEngine;
 
 [System.Serializable] public class GameManager : MonoBehaviour {
 
-    public PhotonView[] listOfPlayersPlaying;
+    public PlayerManager[] listOfPlayersPlaying;
     public PhotonView photon_view;
     public EventManager event_manager;
     //Conditions for match to begin
@@ -17,9 +17,6 @@ using UnityEngine;
     public bool is_in_event = false;
     public bool is_synchronizing_players = false;
     public bool is_migrating_host = false;
-    //Synch
-    public int received_updates = 0;
-    public int expected_updates = 0;
 
     public static GameManager instance;
     void Awake () {
@@ -40,6 +37,15 @@ using UnityEngine;
     
 #region Loop
     //MIDDLE - DURING THE ADVENTURE
+    public void TogglePlayersCombat(bool is_on) {
+        photon_view.RPC("RPC_TogglePlayersCombat",RpcTarget.All,BitConverter.GetBytes(is_on));
+    }
+    [PunRPC] public void RPC_TogglePlayersCombat(byte[] on_byte) {
+        bool is_on = BitConverter.ToBoolean(on_byte,0);
+        foreach (PlayerManager p in listOfPlayersPlaying)
+            if(p.photon_view.IsMine)
+                p.ToggleCombat(is_on);            
+    }
     IEnumerator EnableNextRoutine() {
         yield return null;
         while(is_in_event)
@@ -47,7 +53,7 @@ using UnityEngine;
         yield return new WaitForSeconds(1);
         for (int i = 0; i < listOfPlayersPlaying.Length; i++)
             if (listOfPlayersPlaying[i] != null)
-                listOfPlayersPlaying[i].RPC("RPC_ToggleNextInput",RpcTarget.All, BitConverter.GetBytes(true));
+                listOfPlayersPlaying[i].photon_view.RPC("RPC_ToggleNextInput",RpcTarget.All, BitConverter.GetBytes(true));
         yield break;
     }
     public void AdventureNext() {
@@ -63,7 +69,7 @@ using UnityEngine;
 
         for (int i = 0; i < listOfPlayersPlaying.Length; i++)
             if (listOfPlayersPlaying[i] != null)
-                listOfPlayersPlaying[i].RPC("RPC_ToggleNextInput",RpcTarget.All,BitConverter.GetBytes(false));
+                listOfPlayersPlaying[i].photon_view.RPC("RPC_ToggleNextInput",RpcTarget.All,BitConverter.GetBytes(false));
         event_manager.NewEnemyEncounter();
         StartCoroutine(EnableNextRoutine());
     }
@@ -85,7 +91,7 @@ using UnityEngine;
 
         for (int i = 0; i < listOfPlayersPlaying.Length; i++)
             if (listOfPlayersPlaying[i] != null)
-                listOfPlayersPlaying[i].RPC("RPC_DisableStartInput",RpcTarget.All);
+                listOfPlayersPlaying[i].photon_view.RPC("RPC_DisableStartInput",RpcTarget.All);
         event_manager.NewEnemyEncounter();
         StartCoroutine(EnableNextRoutine());
     }
@@ -116,16 +122,16 @@ using UnityEngine;
         if (!PhotonNetwork.IsMasterClient)
             return;
 
-        List<PhotonView> p = new List<PhotonView> ();
+        List<PlayerManager> p = new List<PlayerManager>();
 
         for (int i = 0; i < listOfPlayersPlaying.Length; i++)
-            p.Add (listOfPlayersPlaying[i]);
+            p.Add(listOfPlayersPlaying[i]);
 
         for (int o = p.Count - 1; o >= 0; o--)
             if (p[o] == null)
                 p.RemoveAt (o);
 
-        listOfPlayersPlaying = new PhotonView[p.Count];
+        listOfPlayersPlaying = new PlayerManager[p.Count];
         for (int u = 0; u < p.Count; u++)
             listOfPlayersPlaying[u] = p[u];
 
@@ -136,10 +142,10 @@ using UnityEngine;
         //So the update function can start the match when all the players have loaded the room properly
         int newPlayerIndex = -1;
         if (listOfPlayersPlaying == null || listOfPlayersPlaying.Length <= 0) {
-            listOfPlayersPlaying = new PhotonView[1];
+            listOfPlayersPlaying = new PlayerManager[1];
             newPlayerIndex = 0;
         } else {
-            PhotonView[] newList = new PhotonView[listOfPlayersPlaying.Length + 1];
+            PlayerManager[] newList = new PlayerManager[listOfPlayersPlaying.Length + 1];
             newPlayerIndex = listOfPlayersPlaying.Length;
 
             for (int i = 0; i < listOfPlayersPlaying.Length; i++) {
@@ -156,7 +162,7 @@ using UnityEngine;
 
         PhotonView playerView = PhotonNetwork.GetPhotonView (receivedPhotonViewID);
         Debug.Log ("Adding new player with index of " + newPlayerIndex + " to the list of size " + listOfPlayersPlaying.Length);
-        listOfPlayersPlaying[newPlayerIndex] = playerView;
+        listOfPlayersPlaying[newPlayerIndex] = playerView.GetComponent<PlayerManager>();
 
         if (!PhotonNetwork.IsMasterClient)
             return;
@@ -165,11 +171,11 @@ using UnityEngine;
     }
 #endregion
 #region Synchronization
-    public void SynchronizeAllPlayers(PhotonView[] ps){
+    public void SynchronizeAllPlayers(PlayerManager[] ps){
         for (int i = 0; i < ps.Length; i++){
             PlayerData d = ps[i].GetComponent<PlayerManager>().data;
             photon_view.RPC ("RPC_SynchronizePlayer", RpcTarget.All,
-                BitConverter.GetBytes(ps[i].ViewID),
+                BitConverter.GetBytes(ps[i].photon_view.ViewID),
                 BitConverter.GetBytes(i),
                 BitConverter.GetBytes(ps.Length),
                 //game
@@ -210,13 +216,13 @@ using UnityEngine;
         received_manager.data.is_playing = playing;
 
         //Update GUI
-        received_manager.UpdateGUI();
+        received_manager.UpdatePosition();
 
         //If there is no list create it
         if (listOfPlayersPlaying == null || listOfPlayersPlaying.Length != receivedSize)
-            listOfPlayersPlaying = new PhotonView[receivedSize];
+            listOfPlayersPlaying = new PlayerManager[receivedSize];
 
-        listOfPlayersPlaying[receivedIndex] = receivedPlayer;
+        listOfPlayersPlaying[receivedIndex] = receivedPlayer.GetComponent<PlayerManager>();
 
         is_synchronizing_players = false;
         Debug.Log ("Finished synchronizing player data");

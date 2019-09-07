@@ -25,8 +25,11 @@ public class EventManager : MonoBehaviour
     }
     IEnumerator EnemyEncounterRoutine() {
         yield return SetBackgroundMovement(0.5f,1);
-        yield return new WaitForSeconds(4);
+        yield return new WaitForSeconds(2);
         yield return SetBackgroundMovement(0,1);
+        GameManager.instance.TogglePlayersCombat(true);
+        yield return new WaitForSeconds(2);
+         GameManager.instance.TogglePlayersCombat(false);
         if(PhotonNetwork.IsMasterClient)
             EndEnemyEncounter();
         else RPC_EndEnemyEncounter();

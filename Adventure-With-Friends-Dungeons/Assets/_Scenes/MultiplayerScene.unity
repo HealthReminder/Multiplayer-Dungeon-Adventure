@@ -160,10 +160,8 @@ MonoBehaviour:
   player_manager: {fileID: 0}
   start_input_container: {fileID: 0}
   next_input_container: {fileID: 0}
-  chars_available: []
   overlay_img: {fileID: 0}
   waiting_text: {fileID: 0}
-  character_avatar_rndr: {fileID: 447421012}
   character_selection_container: {fileID: 1479780546}
 --- !u!1 &258036659
 GameObject:
@@ -400,7 +398,7 @@ GameObject:
   - component: {fileID: 408781966}
   - component: {fileID: 408781965}
   m_Layer: 0
-  m_Name: ObjectDataSingleton
+  m_Name: ObjectIndex
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -418,6 +416,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b1f2d11f697af7b48a3b8de49dd7f339, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  available_characters:
+  - name: Mage
+    sprite: {fileID: 21300000, guid: b54b05866ea3a6f419a29683bdbf6061, type: 3}
+    prefab: {fileID: 8694160857219593816, guid: 2d2add63bbc10544191e3b823b6c4c82,
+      type: 3}
+  - name: Cleric
+    sprite: {fileID: 21300000, guid: c619a1b93a8c41a4e80a1d1ccd22a3c3, type: 3}
+    prefab: {fileID: 2951991546992339190, guid: a1ec247f0a585f04b869a257dde8b46e,
+      type: 3}
 --- !u!4 &408781966
 Transform:
   m_ObjectHideFlags: 0
@@ -899,8 +906,6 @@ MonoBehaviour:
   is_in_event: 0
   is_synchronizing_players: 0
   is_migrating_host: 0
-  received_updates: 0
-  expected_updates: 0
 --- !u!4 &1179419892
 Transform:
   m_ObjectHideFlags: 0

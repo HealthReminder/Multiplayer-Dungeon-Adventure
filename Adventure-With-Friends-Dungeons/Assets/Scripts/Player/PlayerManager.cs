@@ -8,6 +8,7 @@ using UnityEngine.UI;
 [System.Serializable] public class PlayerData {
     public int character_id;
     public bool is_playing = false;
+    public Character character;
 }
 [System.Serializable]   public class PlayerManager : MonoBehaviourPun,IPunObservable
 {
@@ -34,6 +35,10 @@ using UnityEngine.UI;
         
         if(!photon_view.IsMine)
             return;
+    }
+    //MIDDLE - DURING THE ADVENTURE
+    public void ToggleCombat(bool is_on){
+        data.character.ToggleCombat(is_on);
     }
     public void InputNext(){
         Debug.Log("Input next");
@@ -84,9 +89,9 @@ using UnityEngine.UI;
         if(!photon_view.IsMine)
             return;    
         photon_view.RPC("RPC_PlayerSetup",RpcTarget.All);
-        PhotonView[] p_list = GameManager.instance.listOfPlayersPlaying;
-        foreach (PhotonView p in p_list)
-            p.GetComponent<PlayerManager>().RPC_PlayerSetup();
+        PlayerManager[] p_list = GameManager.instance.listOfPlayersPlaying;
+        foreach (PlayerManager p in p_list)
+            p.RPC_PlayerSetup();
     }
     [PunRPC]public void RPC_PlayerSetup() {
         if(is_setup)
@@ -121,8 +126,10 @@ using UnityEngine.UI;
         data.character_id = BitConverter.ToInt32(id_byte,0);
         while(GameManager.instance.is_in_event)
             yield return null;
+        data.character = Instantiate(ObjectIndex.instance.available_characters[data.character_id].prefab,transform.position,Quaternion.identity).GetComponent<Character>();
+        data.character.transform.parent = player_view.transform;
+        UpdatePosition();
         player_view.FadeOverlay(0,2);
-        player_view.ToggleAvatar(data.character_id);
         data.is_playing = true;
         if(!photon_view.IsMine)
             yield break;
@@ -131,7 +138,7 @@ using UnityEngine.UI;
             player_view.ToggleStartInput(true);
         yield break;
     }
-    public void UpdateGUI() {
+    public void UpdatePosition() {
         Debug.Log("Updated GUI");
         transform.position = new Vector3(playerID,0,0);
     }
