@@ -129,8 +129,9 @@ using UnityEngine;
             p.Add(listOfPlayersPlaying[i]);
 
         for (int o = p.Count - 1; o >= 0; o--)
-            if (p[o] == null)
+            if (p[o] == null){
                 p.RemoveAt (o);
+            }
 
         listOfPlayersPlaying = new PlayerManager[p.Count];
         for (int u = 0; u < p.Count; u++)
@@ -153,7 +154,7 @@ using UnityEngine;
                 newList[i] = listOfPlayersPlaying[i];
             }
             listOfPlayersPlaying = newList;
-            Debug.Log ("Created new array");
+            //Debug.Log ("Created new array");
         }
 
         //Deserialize information to get the viewID so the player PhotonView can be found in the network
@@ -161,10 +162,11 @@ using UnityEngine;
         int receivedPhotonViewID = BitConverter.ToInt32 (viewBytes, 0);
         string received_name = System.Text.Encoding.UTF8.GetString(name_bytes);
 
-        Debug.Log ("Player "+received_name+" with view ID of" + receivedPhotonViewID + " joined the room with ID of " + newPlayerIndex);
+        //Debug.Log ("Player "+received_name+" with view ID of" + receivedPhotonViewID + " joined the room with ID of " + newPlayerIndex);
+        ChatManager.instance.AddEntry(received_name, " joined the adventure!","cyan","blue");
 
         PhotonView playerView = PhotonNetwork.GetPhotonView (receivedPhotonViewID);
-        Debug.Log ("Adding new player with index of " + newPlayerIndex + " to the list of size " + listOfPlayersPlaying.Length);
+        //Debug.Log ("Adding new player with index of " + newPlayerIndex + " to the list of size " + listOfPlayersPlaying.Length);
         listOfPlayersPlaying[newPlayerIndex] = playerView.GetComponent<PlayerManager>();
         listOfPlayersPlaying[newPlayerIndex].data.player_name = received_name;
 
