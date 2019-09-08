@@ -6,6 +6,7 @@ using Photon;
 using System;
 using UnityEngine.UI;
 [System.Serializable] public class PlayerData {
+    public string player_name;
     public int character_id;
     public bool is_playing = false;
     public Character character;
@@ -96,6 +97,7 @@ using UnityEngine.UI;
     [PunRPC]public void RPC_PlayerSetup() {
         if(is_setup)
             return;    
+    
         //Here is where you setup the player
         if(!photon_view.IsMine){
             //PhotonNetwork.AuthValues = new Photon.Realtime.AuthenticationValues((UnityEngine.Random.Range(99,99999)).ToString());
@@ -129,6 +131,7 @@ using UnityEngine.UI;
         data.character = Instantiate(ObjectIndex.instance.available_characters[data.character_id].prefab,transform.position,Quaternion.identity).GetComponent<Character>();
         data.character.transform.parent = player_view.transform;
         UpdatePosition();
+        player_view.SetupPlayer(data.player_name);
         player_view.FadeOverlay(0,2);
         data.is_playing = true;
         if(!photon_view.IsMine)
@@ -140,7 +143,7 @@ using UnityEngine.UI;
     }
     public void UpdatePosition() {
         Debug.Log("Updated GUI");
-        transform.position = new Vector3(playerID,0,0);
+        transform.position = new Vector3(playerID*2,0,0);
     }
     public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info){}   
 }

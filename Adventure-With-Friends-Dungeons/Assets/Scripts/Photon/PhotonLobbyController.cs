@@ -33,7 +33,6 @@ public class PhotonLobbyController : MonoBehaviourPunCallbacks
 
     private void Start() {
         //PhotonNetwork.ConnectUsingSettings();
-        
     }
 
     public override void OnConnectedToMaster() {
@@ -42,11 +41,6 @@ public class PhotonLobbyController : MonoBehaviourPunCallbacks
         PhotonNetwork.AutomaticallySyncScene = true;
         view.OnConnectedToMaster();
         
-    }
-
-     public void OnPlayButtonClicked() {
-        view.OnPlayClicked();
-        //PhotonNetwork.JoinRandomRoom();
     }
 
     public void OnConnectButtonClicked() {
@@ -66,7 +60,7 @@ public class PhotonLobbyController : MonoBehaviourPunCallbacks
         Debug.Log("You joined the room: "+roomName);
         PhotonNetwork.JoinRoom(roomName,null);
     }
-     public void JoinRandomRoom(){
+    public void JoinRandomRoom(){
         Debug.Log("You joined a random room");
         PhotonNetwork.JoinRandomRoom();
     }

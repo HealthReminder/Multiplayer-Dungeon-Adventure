@@ -43,8 +43,9 @@ using UnityEngine;
     [PunRPC] public void RPC_TogglePlayersCombat(byte[] on_byte) {
         bool is_on = BitConverter.ToBoolean(on_byte,0);
         foreach (PlayerManager p in listOfPlayersPlaying)
-            if(p.photon_view.IsMine)
-                p.ToggleCombat(is_on);            
+            if(p.data.is_playing)
+                if(p.photon_view.IsMine)
+                    p.ToggleCombat(is_on);            
     }
     IEnumerator EnableNextRoutine() {
         yield return null;
@@ -105,14 +106,14 @@ using UnityEngine;
         is_migrating_host = true;
         string received_user =  System.Text.Encoding.UTF8.GetString(user_id_bytes);
         var p = PhotonNetwork.MasterClient;
-        CommunicationManager.instance.PostNotification("Received host: "+received_user);
-        CommunicationManager.instance.PostNotification("Current host: "+p.UserId);
+        //CommunicationManager.instance.PostNotification("Received host: "+received_user);
+        //CommunicationManager.instance.PostNotification("Current host: "+p.UserId);
         foreach (var i in PhotonNetwork.PlayerList)
             if(i.UserId == received_user)
                 p = i;
-        CommunicationManager.instance.PostNotification("New host: "+p.UserId);
+        //CommunicationManager.instance.PostNotification("New host: "+p.UserId);
         PhotonNetwork.SetMasterClient(p);
-        CommunicationManager.instance.PostNotification("Set host: "+p.UserId);
+        //CommunicationManager.instance.PostNotification("Set host: "+p.UserId);
         is_migrating_host = false;
     }
 #endregion
@@ -137,7 +138,7 @@ using UnityEngine;
 
         SynchronizeAllPlayers(listOfPlayersPlaying);
     }
-    [PunRPC] public void RPC_AddPlayer (byte[] viewBytes) {
+    [PunRPC] public void RPC_AddPlayer (byte[] viewBytes,byte[] name_bytes) {
         //This function is responsible for adding the player to the listOfPlayersPlaying 
         //So the update function can start the match when all the players have loaded the room properly
         int newPlayerIndex = -1;
@@ -158,11 +159,14 @@ using UnityEngine;
         //Deserialize information to get the viewID so the player PhotonView can be found in the network
         //And added to the player list and also be setup
         int receivedPhotonViewID = BitConverter.ToInt32 (viewBytes, 0);
-        Debug.Log ("Player " + receivedPhotonViewID + " joined the room with ID of " + newPlayerIndex);
+        string received_name = System.Text.Encoding.UTF8.GetString(name_bytes);
+
+        Debug.Log ("Player "+received_name+" with view ID of" + receivedPhotonViewID + " joined the room with ID of " + newPlayerIndex);
 
         PhotonView playerView = PhotonNetwork.GetPhotonView (receivedPhotonViewID);
         Debug.Log ("Adding new player with index of " + newPlayerIndex + " to the list of size " + listOfPlayersPlaying.Length);
         listOfPlayersPlaying[newPlayerIndex] = playerView.GetComponent<PlayerManager>();
+        listOfPlayersPlaying[newPlayerIndex].data.player_name = received_name;
 
         if (!PhotonNetwork.IsMasterClient)
             return;
@@ -181,7 +185,7 @@ using UnityEngine;
                 //game
                 BitConverter.GetBytes(is_adventure_started),
                 BitConverter.GetBytes(is_in_event),
-                BitConverter.GetBytes(event_manager.current_event),
+                BitConverter.GetBytes(event_manager.current_event_id),
                 //data
                 BitConverter.GetBytes(d.character_id),
                 BitConverter.GetBytes(d.is_playing)
@@ -203,7 +207,7 @@ using UnityEngine;
         bool in_event = BitConverter.ToBoolean(is_event_byte,0);
         int event_id = BitConverter.ToInt32(event_id_byte,0);
 
-        event_manager.current_event = event_id;
+        event_manager.current_event_id = event_id;
         is_in_event = in_event;
         is_adventure_started = started;
 

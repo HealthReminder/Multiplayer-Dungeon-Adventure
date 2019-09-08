@@ -13,7 +13,7 @@ public class LobbyView : MonoBehaviour
 
     public GameObject roomsContainer;
 
-    public GameObject connectButton,playButton,connectingPanel,menuContainer,roomListContainer;
+    public GameObject connectButton,connectingPanel,menuContainer,roomListContainer, nameContainer;
     //public GameObject optionsContainer;
 
 
@@ -46,22 +46,14 @@ public class LobbyView : MonoBehaviour
     #region INITIAL
     public void OnConnectedToMaster(){
         connectButton.SetActive(false);
-        playButton.SetActive(true);
-        menuContainer.SetActive(false);
         connectingPanel.SetActive(false);
+        nameContainer.SetActive(true);
+
     }
     public void OnConnectClicked(){
         connectButton.SetActive(false);
-        playButton.SetActive(false);
         menuContainer.SetActive(false);
         connectingPanel.SetActive(true);
-    }
-
-    public void OnPlayClicked(){
-        connectButton.SetActive(false);
-        playButton.SetActive(false);
-        menuContainer.SetActive(true);
-        connectingPanel.SetActive(false);
     }
 
     #endregion

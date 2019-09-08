@@ -113,7 +113,7 @@ public class PhotonRoomController : MonoBehaviourPunCallbacks, IInRoomCallbacks 
         int newPlayerView = newPlayer.GetComponent<PhotonView>().ViewID;
         byte[] viewByte = BitConverter.GetBytes(newPlayerView);
         //Debug.Log("Sending player array of "+viewByte.Length+" bytes");
-        GameManager.instance.photon_view.RPC("RPC_AddPlayer",RpcTarget.AllBuffered,viewByte);
+        GameManager.instance.photon_view.RPC("RPC_AddPlayer",RpcTarget.AllBuffered,viewByte,System.Text.Encoding.UTF8.GetBytes(PlayerPrefs.GetString("Player_Name","Rogue")));
 
     }
 

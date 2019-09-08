@@ -6,6 +6,9 @@ using UnityEngine.UI;
 public class PlayerView : MonoBehaviour
 {
     public PlayerManager player_manager;
+    [Header("Player")]
+    [SerializeField] Text player_name_text;
+    [SerializeField] Text player_hp_text;
     [Header("Adventure")]
     public GameObject start_input_container;
     public GameObject next_input_container;
@@ -23,6 +26,13 @@ public class PlayerView : MonoBehaviour
             next_input_container.SetActive(false);
     }
     //START
+    public void SetupPlayer(string player_name) {
+        player_name_text.text = player_name;
+        player_hp_text.text = "HP: "+100.ToString();
+
+        player_name_text.gameObject.SetActive(true);
+        player_hp_text.gameObject.SetActive(true);
+    }
     public void ToggleStartInput(bool is_on) {
         Debug.Log("Toggled start input for "+is_on);
         if(is_on)
