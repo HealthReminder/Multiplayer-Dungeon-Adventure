@@ -114,7 +114,7 @@ MonoBehaviour:
   m_MinSize: {x: 817, y: 498}
   m_MaxSize: {x: 22012, y: 14048}
   vertical: 0
-  controlID: 31
+  controlID: 115
 --- !u!114 &6
 MonoBehaviour:
   m_ObjectHideFlags: 52
@@ -139,7 +139,7 @@ MonoBehaviour:
   m_MinSize: {x: 540, y: 498}
   m_MaxSize: {x: 18010, y: 14048}
   vertical: 1
-  controlID: 65
+  controlID: 116
 --- !u!114 &7
 MonoBehaviour:
   m_ObjectHideFlags: 52
@@ -164,7 +164,7 @@ MonoBehaviour:
   m_MinSize: {x: 406, y: 224}
   m_MaxSize: {x: 8006, y: 4024}
   vertical: 0
-  controlID: 66
+  controlID: 117
 --- !u!114 &8
 MonoBehaviour:
   m_ObjectHideFlags: 52
@@ -244,7 +244,7 @@ MonoBehaviour:
   m_MinSize: {x: 540, y: 274}
   m_MaxSize: {x: 18010, y: 10024}
   vertical: 0
-  controlID: 113
+  controlID: 37
 --- !u!114 &11
 MonoBehaviour:
   m_ObjectHideFlags: 52
@@ -291,8 +291,8 @@ MonoBehaviour:
     y: 0
     width: 534
     height: 279
-  m_MinSize: {x: 104, y: 124}
-  m_MaxSize: {x: 4004, y: 4024}
+  m_MinSize: {x: 100, y: 100}
+  m_MaxSize: {x: 4000, y: 4000}
   m_ActualView: {fileID: 21}
   m_Panes:
   - {fileID: 21}
@@ -463,9 +463,9 @@ MonoBehaviour:
   m_isRotationLocked: 0
   m_AudioPlay: 0
   m_Position:
-    m_Target: {x: 479.9467, y: 326.60803, z: -6.278377}
+    m_Target: {x: 528.0044, y: 701.5553, z: -0.74306184}
     speed: 2
-    m_Value: {x: 479.9467, y: 326.60803, z: -6.278377}
+    m_Value: {x: 528.0044, y: 701.5553, z: -0.74306184}
   m_RenderMode: 0
   m_CameraMode:
     drawMode: 0
@@ -497,9 +497,9 @@ MonoBehaviour:
     speed: 2
     m_Value: {x: 0, y: 0, z: 0, w: -1}
   m_Size:
-    m_Target: 645.9073
+    m_Target: 839.02814
     speed: 2
-    m_Value: 645.9073
+    m_Value: 839.02814
   m_Ortho:
     m_Target: 1
     speed: 2
@@ -639,20 +639,20 @@ MonoBehaviour:
     m_ShowAllHits: 0
     m_SearchArea: 1
     m_Folders:
-    - Assets/Resources/PhotonPrefabs
+    - Assets
   m_ViewMode: 1
   m_StartGridSize: 51
   m_LastFolders:
-  - Assets/Resources/PhotonPrefabs
+  - Assets
   m_LastFoldersGridSize: 51
   m_LastProjectPath: B:\Projetos\2019\2\Multiplayer-Dungeon-Adventure\Multiplayer-Dungeon-Adventure\Adventure-With-Friends-Dungeons
   m_LockTracker:
     m_IsLocked: 0
   m_FolderTreeState:
     scrollPos: {x: 0, y: 79}
-    m_SelectedIDs: 6a290000
-    m_LastClickedID: 10602
-    m_ExpandedIDs: 000000004e270000a4270000d227000060290000cc290000102a00003e2a0000d02a0000d62c0000d82c0000da2c0000dc2c0000de2c0000e02c0000e22c0000e42c000000ca9a3b
+    m_SelectedIDs: 54270000
+    m_LastClickedID: 10068
+    m_ExpandedIDs: 0000000054270000aa270000d827000066290000d2290000162a0000442a0000d62a0000022d0000042d0000062d0000082d00000a2d00000c2d00000e2d0000102d000000ca9a3b
     m_RenameOverlay:
       m_UserAcceptedRename: 0
       m_Name: 
@@ -680,7 +680,7 @@ MonoBehaviour:
     scrollPos: {x: 0, y: 0}
     m_SelectedIDs: 
     m_LastClickedID: 0
-    m_ExpandedIDs: 000000004e270000a4270000d227000060290000cc290000102a00003e2a0000d02a0000d62c0000d82c0000da2c0000dc2c0000de2c0000e02c0000e22c0000e42c0000
+    m_ExpandedIDs: 0000000054270000aa270000d827000066290000d2290000162a0000442a0000d62a0000022d0000042d0000062d0000082d00000a2d00000c2d00000e2d0000102d0000
     m_RenameOverlay:
       m_UserAcceptedRename: 0
       m_Name: 
@@ -763,7 +763,7 @@ MonoBehaviour:
   m_PersistentViewDataDictionary: {fileID: 0}
   m_LockTracker:
     m_IsLocked: 0
-  m_LastSelectedObjectID: 32514
+  m_LastSelectedObjectID: 32396
 --- !u!114 &21
 MonoBehaviour:
   m_ObjectHideFlags: 52
@@ -821,7 +821,7 @@ MonoBehaviour:
       scrollPos: {x: 0, y: 0}
       m_SelectedIDs: 
       m_LastClickedID: 0
-      m_ExpandedIDs: f0fbfeff06fcfeff9efefeffa8fefeffd8fefeffccfffeffd0fffeff9e1bffffb41bffff501effff5a1effff8a1effff961effff8a1fffff8e1fffffae23ffffc423ffffbc24ffffc624ffffe424ffffd825ffffdc25ffff6027ffff7627ffff122affff1c2affff582affff4c2bffff502bffffe82effff0e30ffff2430ffffbc32ffffc632ffff1634ffff0a35ffff0e35ffff5255ffffcc55ffffdc55ffffc656ffff925dffff8a5effff00cdffffe8cdffff62e3ffff60f4ffff80f4ffff48f7ffff1ef9ffffd6fbfffff4ffffff842f0000882f0000ca2f0000f02f00002e30000052300000423b00005c3b0000763b0000cc3b0000ee3b0000f23b0000523c00005eb30000b8b300003eb40000
+      m_ExpandedIDs: eac0ffff00c1ffff9ec3ffffa8c3ffffe4c3ffffd8c4ffffdcc4ffffa0c9ffffb6c9ffff54ccffff62ccffffa4cdffff9cceffffa4ceffff14d7ffff2ad7ffffccd9ffffdad9ffff18daffff10dbffff0cefffff22efffffc4f1ffffd2f1ffff24f2ffff1cf3ffff24f3ffff72f9ffff08fbffffd6fbffff8e2d0000982d00000a2e0000
       m_RenameOverlay:
         m_UserAcceptedRename: 0
         m_Name: 

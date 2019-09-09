@@ -115,6 +115,7 @@ using UnityEngine;
         PhotonNetwork.SetMasterClient(p);
         //CommunicationManager.instance.PostNotification("Set host: "+p.UserId);
         is_migrating_host = false;
+        ChatManager.instance.AddEntry(PhotonNetwork.MasterClient.NickName, " is leading the way!","#7d3c98","#884ea0", false);
     }
 #endregion
 #region Player in Room
@@ -136,6 +137,8 @@ using UnityEngine;
         listOfPlayersPlaying = new PlayerManager[p.Count];
         for (int u = 0; u < p.Count; u++)
             listOfPlayersPlaying[u] = p[u];
+
+        ChatManager.instance.AddEntry("Someone"," abandoned the adventure.","#154360","#1b4f72",false);
 
         SynchronizeAllPlayers(listOfPlayersPlaying);
     }
@@ -163,7 +166,7 @@ using UnityEngine;
         string received_name = System.Text.Encoding.UTF8.GetString(name_bytes);
 
         //Debug.Log ("Player "+received_name+" with view ID of" + receivedPhotonViewID + " joined the room with ID of " + newPlayerIndex);
-        ChatManager.instance.AddEntry(received_name, " joined the adventure!","cyan","blue");
+        ChatManager.instance.AddEntry(received_name, " joined the adventure!","#2471a3","#2e86c1",false);
 
         PhotonView playerView = PhotonNetwork.GetPhotonView (receivedPhotonViewID);
         //Debug.Log ("Adding new player with index of " + newPlayerIndex + " to the list of size " + listOfPlayersPlaying.Length);

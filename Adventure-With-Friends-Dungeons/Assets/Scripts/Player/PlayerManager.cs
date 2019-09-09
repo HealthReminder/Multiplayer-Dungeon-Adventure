@@ -27,7 +27,7 @@ using UnityEngine.UI;
         if(!photonView.IsMine) 
             return;
         StartCoroutine(WaitSetup(1));
-        player_view.FadeOverlay(1,100);
+        player_view.FadeOverlay(1,2);
     }  
 
     private void Update() {

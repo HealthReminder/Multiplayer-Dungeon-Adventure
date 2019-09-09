@@ -316,7 +316,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: 0, y: -62.40001}
-  m_SizeDelta: {x: 801, y: 0}
+  m_SizeDelta: {x: 801, y: 40}
   m_Pivot: {x: 0.5, y: 0}
 --- !u!114 &138270169
 MonoBehaviour:
@@ -1198,6 +1198,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   photon_view: {fileID: 624142557}
+  is_on: 0
   chat_container: {fileID: 1940407257}
   chat_content: {fileID: 138270168}
   chat_entry: {fileID: 1411344249}
@@ -2411,7 +2412,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1940407258
 RectTransform:
   m_ObjectHideFlags: 0

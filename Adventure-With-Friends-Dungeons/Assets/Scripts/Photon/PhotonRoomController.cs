@@ -101,12 +101,12 @@ public class PhotonRoomController : MonoBehaviourPunCallbacks, IInRoomCallbacks 
         if(currentScene == MultiplayerSettings.instance.multiplayerScene){
             is_scene_loaded = true;
             
-            RPC_CreatePlayer();
+            CreatePlayer();
             
         }
     }
     public int lastView;
-    [PunRPC]    private void RPC_CreatePlayer () {
+    private void CreatePlayer () {
         Debug.Log("Creating player");
         GameObject newPlayer = PhotonNetwork.Instantiate(Path.Combine("PhotonPrefabs","PhotonNetworkPlayer"),
         transform.position, Quaternion.identity, 0);
