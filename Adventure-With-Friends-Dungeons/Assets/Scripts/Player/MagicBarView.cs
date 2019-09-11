@@ -16,10 +16,6 @@ public class MagicBarView : MonoBehaviour
     private void Awake() {
         Reset(false);
     }
-    private void Update() {
-        if(Input.GetKeyDown(KeyCode.A))
-            Reset(true);
-    }
     public void RollDice() {
         if(!is_on)
             return;
@@ -36,22 +32,22 @@ public class MagicBarView : MonoBehaviour
             GUI_Update();
     }
 #region GUI
-    public void GUI_Update() {
+    void GUI_Update() {
         filler_image.fillAmount = (float)current_value/(float)cap;
     }
-    public void GUI_JackPot() {
+    void GUI_JackPot() {
         filler_image.fillAmount = 1;
         GUI_ToggleInput(false);
     }
-    public void GUI_Overflow() {
+    void GUI_Overflow() {
         filler_image.fillAmount = 0;
         GUI_ToggleInput(false);
     }
-    public void GUI_Attack() {
+    void GUI_Attack() {
         filler_image.fillAmount = 0;
         GUI_ToggleInput(false);
     }
-    public void GUI_ToggleInput(bool new_state){
+    void GUI_ToggleInput(bool new_state){
         roll_button.interactable = new_state;
         attack_button.interactable = new_state;
 
@@ -67,12 +63,12 @@ public class MagicBarView : MonoBehaviour
     }
 #endregion
 #region CONSEQUENCES
-    public void OnOverflow() {
+    void OnOverflow() {
         is_on = false;
         GUI_Overflow();
         Debug.Log("Mage overflowed its power.");
     }
-    public void OnJackpot() {
+    void OnJackpot() {
         is_on = false;
         GUI_JackPot();
         Debug.Log("Mage released its full power!");

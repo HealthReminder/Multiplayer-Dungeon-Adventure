@@ -35,8 +35,9 @@ public class EventManager : MonoBehaviour
         yield return SetBackgroundMovement(0.5f,1);
         yield return new WaitForSeconds(2);
         yield return SetBackgroundMovement(0,1);
+        current_event_object.SetActive(true);
         GameManager.instance.TogglePlayersCombat(true);
-        yield return new WaitForSeconds(2);
+        yield return new WaitForSeconds(10);
         GameManager.instance.TogglePlayersCombat(false);
         if(PhotonNetwork.IsMasterClient)
             EndEnemyEncounter();
@@ -49,6 +50,7 @@ public class EventManager : MonoBehaviour
     }
 
     [PunRPC] void RPC_EndEnemyEncounter() {
+        current_event_object.SetActive(false);
         GameManager.instance.is_in_event = false;
         StartCoroutine(SetBackgroundMovement(0,1));
 
