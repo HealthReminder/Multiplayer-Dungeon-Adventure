@@ -115,7 +115,7 @@ using UnityEngine;
         PhotonNetwork.SetMasterClient(p);
         //CommunicationManager.instance.PostNotification("Set host: "+p.UserId);
         is_migrating_host = false;
-        ChatManager.instance.AddEntry(PhotonNetwork.MasterClient.NickName, " is leading the way!","#7d3c98","#884ea0", false);
+        ChatManager.instance.AddEntry(GameManager.instance.listOfPlayersPlaying[int.Parse(PhotonNetwork.MasterClient.NickName)-1].data.player_name, " is leading the way!","#7d3c98","#884ea0", false);
     }
 #endregion
 #region Player in Room

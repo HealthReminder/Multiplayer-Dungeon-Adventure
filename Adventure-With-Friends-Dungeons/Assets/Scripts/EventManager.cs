@@ -3,14 +3,15 @@ using System.Collections.Generic;
 using UnityEngine;
 using Photon.Pun;
 using System;
-[System.Serializable]   public struct Event {
-    public Enemy[] enemies;
-}
 public class EventManager : MonoBehaviour
 {
     public int current_event_id = 0;
-    [SerializeField]public Event current;
+    [SerializeField]public Encounter current_encounter;
+    public GameObject current_event_object;
     public PhotonView photon_view;
+    public GameObject test_encounter_prefab;
+    
+    
     public void NewEnemyEncounter() {
         GameManager.instance.is_in_event = true;
         photon_view.RPC("RPC_NewEnemyEncounter",RpcTarget.All, BitConverter.GetBytes(current_event_id),BitConverter.GetBytes(UnityEngine.Random.Range(0f,1f)));
@@ -23,6 +24,10 @@ public class EventManager : MonoBehaviour
             return;
         current_event_id++;
         GameManager.instance.is_in_event = true;
+        current_event_object = Instantiate(test_encounter_prefab,transform.position,Quaternion.identity);
+        current_encounter = current_event_object.GetComponent<Encounter>();
+        current_encounter.Initiate();
+
         StartCoroutine(EnemyEncounterRoutine());
     }
 

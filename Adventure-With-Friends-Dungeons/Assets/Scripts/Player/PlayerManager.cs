@@ -9,6 +9,7 @@ using UnityEngine.UI;
     public string player_name;
     public int character_id;
     public bool is_playing = false;
+    public bool is_attacking = false;
     public Character character;
 }
 [System.Serializable]   public class PlayerManager : MonoBehaviourPun,IPunObservable
