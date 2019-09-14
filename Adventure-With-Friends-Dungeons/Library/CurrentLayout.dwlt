@@ -45,7 +45,7 @@ MonoBehaviour:
     y: 0
     width: 1920
     height: 997
-  m_MinSize: {x: 950, y: 548}
+  m_MinSize: {x: 950, y: 300}
   m_MaxSize: {x: 10000, y: 10000}
 --- !u!114 &3
 MonoBehaviour:
@@ -114,7 +114,7 @@ MonoBehaviour:
   m_MinSize: {x: 807, y: 498}
   m_MaxSize: {x: 22002, y: 14048}
   vertical: 0
-  controlID: 172
+  controlID: 151
 --- !u!114 &6
 MonoBehaviour:
   m_ObjectHideFlags: 52
@@ -139,7 +139,7 @@ MonoBehaviour:
   m_MinSize: {x: 532, y: 498}
   m_MaxSize: {x: 18002, y: 14048}
   vertical: 1
-  controlID: 115
+  controlID: 132
 --- !u!114 &7
 MonoBehaviour:
   m_ObjectHideFlags: 52
@@ -164,7 +164,7 @@ MonoBehaviour:
   m_MinSize: {x: 406, y: 224}
   m_MaxSize: {x: 8006, y: 4024}
   vertical: 0
-  controlID: 116
+  controlID: 133
 --- !u!114 &8
 MonoBehaviour:
   m_ObjectHideFlags: 52
@@ -244,7 +244,7 @@ MonoBehaviour:
   m_MinSize: {x: 532, y: 274}
   m_MaxSize: {x: 18002, y: 10024}
   vertical: 0
-  controlID: 37
+  controlID: 88
 --- !u!114 &11
 MonoBehaviour:
   m_ObjectHideFlags: 52
@@ -463,9 +463,9 @@ MonoBehaviour:
   m_isRotationLocked: 0
   m_AudioPlay: 0
   m_Position:
-    m_Target: {x: 3.9016626, y: 5.167153, z: 4.8110485}
+    m_Target: {x: 0.26277393, y: 1.3623853, z: 4.8896484}
     speed: 2
-    m_Value: {x: 3.9016626, y: 5.167153, z: 4.8110485}
+    m_Value: {x: 0.26277393, y: 1.3623853, z: 4.8896484}
   m_RenderMode: 0
   m_CameraMode:
     drawMode: 0
@@ -497,9 +497,9 @@ MonoBehaviour:
     speed: 2
     m_Value: {x: 0, y: 0, z: 0, w: -1}
   m_Size:
-    m_Target: 16.065525
+    m_Target: 8.034893
     speed: 2
-    m_Value: 16.065525
+    m_Value: 8.034893
   m_Ortho:
     m_Target: 1
     speed: 2
@@ -639,19 +639,19 @@ MonoBehaviour:
     m_ShowAllHits: 0
     m_SearchArea: 1
     m_Folders:
-    - Assets/Prefabs
+    - Assets/_Scenes
   m_ViewMode: 1
   m_StartGridSize: 51
   m_LastFolders:
-  - Assets/Prefabs
+  - Assets/_Scenes
   m_LastFoldersGridSize: 51
   m_LastProjectPath: B:\Projetos\2019\2\Multiplayer-Dungeon-Adventure\Multiplayer-Dungeon-Adventure\Adventure-With-Friends-Dungeons
   m_LockTracker:
     m_IsLocked: 0
   m_FolderTreeState:
-    scrollPos: {x: 0, y: 114}
-    m_SelectedIDs: e6290000
-    m_LastClickedID: 10726
+    scrollPos: {x: 0, y: 54}
+    m_SelectedIDs: 942a0000
+    m_LastClickedID: 10900
     m_ExpandedIDs: 000000005a270000b0270000de2700006c290000d82900001c2a00004e2a0000e42a0000162d0000182d00001a2d00001c2d00001e2d0000202d0000222d0000242d000000ca9a3b
     m_RenameOverlay:
       m_UserAcceptedRename: 0
@@ -707,7 +707,7 @@ MonoBehaviour:
   m_ListAreaState:
     m_SelectedInstanceIDs: 
     m_LastClickedInstanceID: 0
-    m_HadKeyboardFocusLastEvent: 0
+    m_HadKeyboardFocusLastEvent: 1
     m_ExpandedInstanceIDs: c6230000e62900002e4500008a2e0000a22e0000c22c000000000000
     m_RenameOverlay:
       m_UserAcceptedRename: 0
@@ -763,7 +763,7 @@ MonoBehaviour:
   m_PersistentViewDataDictionary: {fileID: 0}
   m_LockTracker:
     m_IsLocked: 0
-  m_LastSelectedObjectID: 20490
+  m_LastSelectedObjectID: 11810
 --- !u!114 &21
 MonoBehaviour:
   m_ObjectHideFlags: 52
@@ -819,9 +819,9 @@ MonoBehaviour:
   m_SceneHierarchy:
     m_TreeViewState:
       scrollPos: {x: 0, y: 0}
-      m_SelectedIDs: 
-      m_LastClickedID: 0
-      m_ExpandedIDs: d6fbffff
+      m_SelectedIDs: 38560000
+      m_LastClickedID: 22072
+      m_ExpandedIDs: b4d7ffff14d8ffff24d8ffff16d9ffffbedcffff1ee0ffff42e5ffffbee7ffff94edffff0eeeffff1cefffffa8f0ffff22f1ffff36f9ffffd4faffffd6fbffff603f0000ba3f00002e5600003e560000
       m_RenameOverlay:
         m_UserAcceptedRename: 0
         m_Name: 

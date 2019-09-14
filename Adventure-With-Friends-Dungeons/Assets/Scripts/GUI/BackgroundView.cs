@@ -18,18 +18,58 @@ public class BackgroundView : MonoBehaviour
         Setup(18);
         StartCoroutine(MovementRoutine());
     }
-    [Range(-0.5f,0.5f)] 
-    public float min_y;
-    public float offsetx,max_x;
+    public IEnumerator LeavePlaceRoutine(float step) {
+        is_placing = true;
+        yield return null;
+        is_placing = true;
+
+        while(is_placing) {
+            while(current_place_renderer.color.a > 0){
+                current_place_renderer.color += new Color(0,0,0,-0.1f*step);
+                yield return null;
+            }
+            is_placing = false;
+        }
+        yield break;
+    }
+    public void StopAtPlace(Sprite place_sprite) {
+        StartCoroutine(StopAtPlaceRoutine(place_sprite, 1));
+    }
+    public bool is_placing = false;
+    public SpriteRenderer current_place_renderer;
+    public IEnumerator StopAtPlaceRoutine(Sprite place_sprite, float step) {
+        is_placing = true;
+        yield return null;
+        is_placing = true;
+
+        while(is_placing) {
+            while(current_place_renderer.color.a > 0){
+                current_place_renderer.color += new Color(0,0,0,-0.1f*step);
+                yield return null;
+            }
+
+            current_place_renderer.sprite = place_sprite;
+
+            while(current_place_renderer.color.a < 1){
+                current_place_renderer.color += new Color(0,0,0,0.1f*step);
+                yield return null;
+            }
+            is_placing = false;
+        }
+        yield break;
+    }
     public void ToggleMovement(float target_speed) {
         StartCoroutine(ToggleMovementRoutine(target_speed,1));
     }
-    
+    [Range(-0.5f,0.5f)] 
+    public float min_y;
+    public float offsetx,max_x;
     bool is_moving = false;
     public IEnumerator ToggleMovementRoutine(float target_speed,float step) {
         is_moving = false;
         yield return null;
         is_moving = true;
+        
         if(current_speed < target_speed){
             while(current_speed < target_speed && is_moving) {
                 current_speed+=step*Time.deltaTime;

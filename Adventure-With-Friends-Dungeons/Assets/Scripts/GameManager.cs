@@ -71,7 +71,7 @@ using UnityEngine;
         for (int i = 0; i < listOfPlayersPlaying.Length; i++)
             if (listOfPlayersPlaying[i] != null)
                 listOfPlayersPlaying[i].photon_view.RPC("RPC_ToggleNextInput",RpcTarget.All,BitConverter.GetBytes(false));
-        event_manager.NewEnemyEncounter();
+        event_manager.NewEvent();
         StartCoroutine(EnableNextRoutine());
     }
 #endregion
@@ -93,7 +93,7 @@ using UnityEngine;
         for (int i = 0; i < listOfPlayersPlaying.Length; i++)
             if (listOfPlayersPlaying[i] != null)
                 listOfPlayersPlaying[i].photon_view.RPC("RPC_DisableStartInput",RpcTarget.All);
-        event_manager.NewEnemyEncounter();
+        event_manager.NewEvent();
         StartCoroutine(EnableNextRoutine());
     }
 #endregion

@@ -72,5 +72,7 @@ MonoBehaviour:
   - RPC_TogglePlayersCombat
   - RPC_GetHit
   - RPC_AddEntry
+  - RPC_EndEncounter
+  - RPC_NewEvent
   DisableAutoOpenWizard: 1
   ShowSettings: 1
