@@ -596,7 +596,7 @@ MonoBehaviour:
   ObservedComponents:
   - {fileID: 1989414464114271605}
   viewIdField: 0
-  InstantiationId: 2
+  InstantiationId: 4
   isRuntimeInstantiated: 0
 --- !u!1 &2052682556258828013
 GameObject:
@@ -2359,7 +2359,7 @@ Camera:
   m_Enabled: 1
   serializedVersion: 2
   m_ClearFlags: 1
-  m_BackGroundColor: {r: 0, g: 0, b: 0, a: 0}
+  m_BackGroundColor: {r: 0.21176472, g: 0.26666668, b: 0.27058825, a: 0}
   m_projectionMatrixMode: 1
   m_SensorSize: {x: 36, y: 24}
   m_LensShift: {x: 0, y: 0}

@@ -6,9 +6,12 @@ using System;
 
 public class EventManager : MonoBehaviour
 {
-    public int current_event_id = 0;
-    [SerializeField]public AdventureEvent current_event;
-    public PhotonView photon_view;
+    [HideInInspector] public int current_event_id = 0;
+    public GameObject[] adventure_events_available;
+    public Transform adventure_event_container;
+    [SerializeField]GameObject current_event_object;
+    [SerializeField]AdventureEvent current_event_adventure;
+    [HideInInspector] public PhotonView photon_view;
     BackgroundView bv;
     [Header("Player Information")]
     [SerializeField] protected int current_place = 0;
@@ -29,7 +32,11 @@ public class EventManager : MonoBehaviour
             return;
         current_event_id++;
         GameManager.instance.is_in_event = true;
-        current_event.Initiate();
+        current_event_object = Instantiate(adventure_events_available[0],transform.position,Quaternion.identity);
+        current_event_object.transform.parent = adventure_event_container;
+        current_event_object.transform.localPosition = new Vector3(0,0,0);
+        current_event_adventure = current_event_object.GetComponent<AdventureEvent>();
+        current_event_adventure.Initiate();
 
         StartCoroutine(EventRoutine());
     }
@@ -42,15 +49,15 @@ public class EventManager : MonoBehaviour
         //yield return bv.ToggleMovementRoutine(0.5f,1);
         //yield return new WaitForSeconds(2);
         //yield return bv.ToggleMovementRoutine(0,1);
-        for (int i = 0; i < current_event.places.Length ; i++)
+        for (int i = 0; i < current_event_adventure.places.Length ; i++)
         {
             current_place = i;
             yield return bv.ToggleMovementRoutine(0.5f,1);
-            yield return new WaitForSeconds(1*current_event.places[i].distance);
+            yield return new WaitForSeconds(1*current_event_adventure.places[i].distance);
             yield return bv.ToggleMovementRoutine(0,1);
-            yield return bv.StopAtPlaceRoutine(current_event.places[i].sprite,0.1f);
+            yield return current_event_adventure.TogglePlaceRoutine(current_event_adventure.places[i],1,true);
             yield return new WaitForSeconds(3);
-            yield return bv.LeavePlaceRoutine(0.05f);
+            yield return current_event_adventure.TogglePlaceRoutine(current_event_adventure.places[i],1,false);
         }
         GameManager.instance.TogglePlayersCombat(true);
         yield return new WaitForSeconds(10);
