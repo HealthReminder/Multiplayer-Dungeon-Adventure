@@ -5,9 +5,10 @@ using Photon.Pun;
 using System;    
 public class Enemy : MonoBehaviour
 {
-    [Serializable]struct InitialStats
+    [Serializable]public struct InitialStats
     {
         public float initial_hp;
+        public int level;
     }
     struct CurrentStats
     {
@@ -15,7 +16,7 @@ public class Enemy : MonoBehaviour
         public float current_hp;
 
     }
-    [SerializeField] InitialStats initial_stats;
+    [SerializeField]public InitialStats initial_stats;
     CurrentStats current_stats;
 
     public PhotonView photon_view;

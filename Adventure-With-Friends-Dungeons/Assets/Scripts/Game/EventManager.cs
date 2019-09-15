@@ -59,9 +59,9 @@ public class EventManager : MonoBehaviour
             yield return new WaitForSeconds(3);
             yield return current_event_adventure.TogglePlaceRoutine(current_event_adventure.places[i],1,false);
         }
-        GameManager.instance.TogglePlayersCombat(true);
-        yield return new WaitForSeconds(10);
-        GameManager.instance.TogglePlayersCombat(false);
+        //GameManager.instance.TogglePlayersCombat(true);
+        //yield return new WaitForSeconds(10);
+        //GameManager.instance.TogglePlayersCombat(false);
         if(PhotonNetwork.IsMasterClient)
             EndEncounter();
         else RPC_EndEncounter();

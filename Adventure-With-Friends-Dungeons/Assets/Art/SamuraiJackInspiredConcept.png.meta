@@ -9,6 +9,8 @@ TextureImporter:
     21300008: SamuraiJackInspiredConcept_4
     21300010: SamuraiJackInspiredConcept_5
     21300012: SamuraiJackInspiredConcept_6
+    21300014: SamuraiJackInspiredConcept_7
+    21300016: SamuraiJackInspiredConcept_8
   externalObjects: {}
   serializedVersion: 9
   mipmaps:
@@ -117,7 +119,7 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 0
-        y: 476
+        y: 572
         width: 91
         height: 201
       alignment: 0
@@ -137,7 +139,7 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 128
-        y: 479
+        y: 573
         width: 109
         height: 210
       alignment: 0
@@ -157,7 +159,7 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 280
-        y: 478
+        y: 571
         width: 111
         height: 212
       alignment: 0
@@ -177,7 +179,7 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 430
-        y: 615
+        y: 709
         width: 50
         height: 53
       alignment: 0
@@ -196,8 +198,8 @@ TextureImporter:
       name: SamuraiJackInspiredConcept_4
       rect:
         serializedVersion: 2
-        x: 20
-        y: 0
+        x: 17
+        y: 93
         width: 674
         height: 420
       alignment: 0
@@ -217,11 +219,11 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 427
-        y: 530
+        y: 623
         width: 50
         height: 55
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 1, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -236,10 +238,30 @@ TextureImporter:
       name: SamuraiJackInspiredConcept_6
       rect:
         serializedVersion: 2
-        x: 424
-        y: 459
+        x: 423
+        y: 553
         width: 158
         height: 61
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: e26fbc394ea575d4c8bb4b54985a8727
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: SamuraiJackInspiredConcept_7
+      rect:
+        serializedVersion: 2
+        x: 541
+        y: 663
+        width: 83
+        height: 111
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -247,7 +269,27 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: e26fbc394ea575d4c8bb4b54985a8727
+      spriteID: 8bd6a651b3162f14ea3cb70b2dac4f1e
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: SamuraiJackInspiredConcept_8
+      rect:
+        serializedVersion: 2
+        x: 648
+        y: 556
+        width: 84
+        height: 221
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: e13bf362cb7f3a3438f27384b8cb7c09
       vertices: []
       indices: 
       edges: []
