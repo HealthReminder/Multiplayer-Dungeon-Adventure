@@ -6,10 +6,11 @@ public class EnemyManager : MonoBehaviour
 {
     public Enemy[] available_enemies;
     public List<Enemy> current_enemies;
+    public Transform enemy_container;
     
     private void Update() {
         if(Input.GetKeyDown(KeyCode.G))
-            GenerateCombat(3);
+            GenerateCombat(6);
         if(Input.GetKeyDown(KeyCode.C))
             Reset();
     }
@@ -38,11 +39,27 @@ public class EnemyManager : MonoBehaviour
         current_enemies = new List<Enemy>();
         for (int i = 0; i < final_list.Count; i++)
         {
-            current_enemies.Add(Instantiate(final_list[i].gameObject,transform.position,Quaternion.identity).GetComponent<Enemy>());
-            current_enemies[i].transform.parent = transform;
+            GameObject new_enemy = Instantiate(final_list[i].gameObject,transform.position,Quaternion.identity);
+            
+            new_enemy.transform.localScale = new Vector3(Random.Range(0,2)*2-1,1,1);
+            new_enemy.transform.parent = enemy_container;
+            current_enemies.Add(new_enemy.GetComponent<Enemy>());
         }
+        OrganizeEnemies();
         
     }   
+    void OrganizeEnemies() {
+        for (int i = 0; i < current_enemies.Count; i++)
+        {
+            if(i == 0)
+                current_enemies[i].transform.position = enemy_container.position;
+            else if(i%2 == 0)
+                current_enemies[i].transform.position = enemy_container.position + new Vector3(i-1*i/2,0,0);
+            else 
+                current_enemies[i].transform.position = enemy_container.position - new Vector3(i-1*i/2,0,0);  
+        }
+        Debug.Log("Organized enemy positions.");
+    }
     void Reset() {
         if(current_enemies != null)
             for (int i = current_enemies.Count-1; i >= 0; i--)
