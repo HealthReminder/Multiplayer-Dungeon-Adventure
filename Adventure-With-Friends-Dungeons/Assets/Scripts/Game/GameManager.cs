@@ -122,7 +122,7 @@ using UnityEngine;
         ChatManager.instance.AddEntry(GameManager.instance.listOfPlayersPlaying[int.Parse(PhotonNetwork.MasterClient.NickName)-1].data.player_name, " is leading the way!","#7d3c98","#884ea0", false);
     }
 #endregion
-#region Player in Room
+#region Synchronization
     public void OnPlayerLeftRoom () {
         Debug.Log ("A player left the room.");
         if (!PhotonNetwork.IsMasterClient)
@@ -185,8 +185,6 @@ using UnityEngine;
         
         SynchronizeAllPlayers(listOfPlayersPlaying);
     }
-#endregion
-#region Synchronization
     public void SynchronizeAllPlayers(PlayerManager[] ps){
         for (int i = 0; i < ps.Length; i++){
             photon_view.RPC ("RPC_SynchronizePlayer", RpcTarget.All,

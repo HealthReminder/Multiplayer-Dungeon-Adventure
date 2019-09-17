@@ -9,6 +9,7 @@ public class Enemy : MonoBehaviour
     {
         public float initial_hp;
         public int level;
+        public float half_size;
     }
     struct CurrentStats
     {

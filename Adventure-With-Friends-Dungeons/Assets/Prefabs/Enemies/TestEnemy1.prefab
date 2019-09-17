@@ -127,6 +127,7 @@ MonoBehaviour:
   initial_stats:
     initial_hp: 10
     level: 1
+    half_size: 0.5
   photon_view: {fileID: 121509522784003886}
   is_dead: 0
   current_target: {fileID: 0}

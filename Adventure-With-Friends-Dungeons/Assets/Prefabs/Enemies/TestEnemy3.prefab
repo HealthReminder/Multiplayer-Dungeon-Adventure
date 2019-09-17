@@ -48,6 +48,7 @@ MonoBehaviour:
   initial_stats:
     initial_hp: 30
     level: 3
+    half_size: 2
   photon_view: {fileID: 569947678257611845}
   is_dead: 0
   current_target: {fileID: 0}
@@ -99,7 +100,7 @@ Transform:
   m_GameObject: {fileID: 4686283882178293552}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 0.5, y: 0.5, z: 0.5}
+  m_LocalScale: {x: 2, y: 0.5, z: 0.5}
   m_Children: []
   m_Father: {fileID: 1400359350809647798}
   m_RootOrder: 0

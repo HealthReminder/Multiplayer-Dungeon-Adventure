@@ -53,10 +53,22 @@ public class EnemyManager : MonoBehaviour
         {
             if(i == 0)
                 current_enemies[i].transform.position = enemy_container.position;
-            else if(i%2 == 0)
-                current_enemies[i].transform.position = enemy_container.position + new Vector3(i-1*i/2,0,0);
-            else 
-                current_enemies[i].transform.position = enemy_container.position - new Vector3(i-1*i/2,0,0);  
+            else if(i%2 == 0) {
+                float last_size = current_enemies[i-2].initial_stats.half_size;
+                current_enemies[i].transform.position = current_enemies[i-2].transform.position + new Vector3(last_size+ current_enemies[i].initial_stats.half_size,0,0) ;// + new Vector3(i-1*i/2,0,0);
+            }
+            else {
+                float last_size;
+                if(i-2 < 0){
+                    last_size = current_enemies[0].initial_stats.half_size;
+                    current_enemies[i].transform.position = current_enemies[0].transform.position - new Vector3(last_size+ current_enemies[i].initial_stats.half_size,0,0) ;
+                } else
+                {
+                    last_size = current_enemies[i-2].initial_stats.half_size;
+                    current_enemies[i].transform.position = current_enemies[i-2].transform.position - new Vector3(last_size+ current_enemies[i].initial_stats.half_size,0,0) ;
+                }
+                
+            }
         }
         Debug.Log("Organized enemy positions.");
     }
