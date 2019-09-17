@@ -1627,7 +1627,6 @@ MonoBehaviour:
   photon_view: {fileID: 1179419893}
   event_manager: {fileID: 1179419894}
   is_adventure_started: 0
-  is_in_event: 0
   is_synchronizing_players: 0
   is_migrating_host: 0
 --- !u!4 &1179419892
@@ -1683,7 +1682,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 852b2d2a7f442384cadbee6a731e4e03, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  current_event_id: 0
+  data:
+    current_event_id: 0
+    is_in_event: 0
   adventure_events_available:
   - {fileID: 2502380882872025175, guid: ed73ae9492259a541958e36b83009aff, type: 3}
   adventure_event_container: {fileID: 1205416792}
@@ -2373,18 +2374,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8cef74c0d18d025478d5f51c3d9a8a9b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  test_data:
-    player_name: 
-    character_id: 0
-    is_playing: 0
-    is_attacking: 0
-    character: {fileID: 0}
-  received_data:
-    player_name: 
-    character_id: 0
-    is_playing: 0
-    is_attacking: 0
-    character: {fileID: 0}
+  serialize_event:
+    current_event_id: 0
+    is_in_event: 1
+  deserialized_event:
+    current_event_id: 0
+    is_in_event: 0
 --- !u!4 &1740477306
 Transform:
   m_ObjectHideFlags: 0

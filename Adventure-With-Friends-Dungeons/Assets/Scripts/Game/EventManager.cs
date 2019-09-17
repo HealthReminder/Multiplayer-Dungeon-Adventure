@@ -4,9 +4,13 @@ using UnityEngine;
 using Photon.Pun;
 using System;
 
+[System.Serializable]   public class EventData {
+    public int current_event_id;
+    public bool is_in_event = false;
+}
 public class EventManager : MonoBehaviour
 {
-    [HideInInspector] public int current_event_id = 0;
+    public EventData data;
     public GameObject[] adventure_events_available;
     public Transform adventure_event_container;
     [SerializeField]GameObject current_event_object;
@@ -21,17 +25,17 @@ public class EventManager : MonoBehaviour
     }
 
     public void NewEvent() {
-        GameManager.instance.is_in_event = true;
-        photon_view.RPC("RPC_NewEvent",RpcTarget.All, BitConverter.GetBytes(current_event_id),BitConverter.GetBytes(UnityEngine.Random.Range(0f,1f)));
+        data.is_in_event = true;
+        photon_view.RPC("RPC_NewEvent",RpcTarget.All, BitConverter.GetBytes(data.current_event_id),BitConverter.GetBytes(UnityEngine.Random.Range(0f,1f)));
     }
     [PunRPC] void RPC_NewEvent (byte[] id_byte, byte[] seed_byte) {
         int event_id = BitConverter.ToInt32(id_byte,0);
         float seed = BitConverter.ToSingle(seed_byte,0);
         Debug.Log("Encounter of id: "+event_id);
-        if (current_event_id != event_id)
+        if (data.current_event_id != event_id)
             return;
-        current_event_id++;
-        GameManager.instance.is_in_event = true;
+        data.current_event_id++;
+        data.is_in_event = true;
         current_event_object = Instantiate(adventure_events_available[0],transform.position,Quaternion.identity);
         current_event_object.transform.parent = adventure_event_container;
         current_event_object.transform.localPosition = new Vector3(0,0,0);
@@ -73,8 +77,12 @@ public class EventManager : MonoBehaviour
     }
 
     [PunRPC] void RPC_EndEncounter() {
-        GameManager.instance.is_in_event = false;
+        data.is_in_event = false;
         StartCoroutine(BackgroundView.instance.ToggleMovementRoutine(0,1));
 
+    }
+    public static EventManager instance;
+    private void Awake() {
+        instance = this;
     }
 }

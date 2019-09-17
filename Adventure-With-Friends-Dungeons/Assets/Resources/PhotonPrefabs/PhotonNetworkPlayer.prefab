@@ -566,12 +566,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   data:
     player_name: 
+    photon_view_id: 0
+    player_id: 0
     character_id: 0
     is_playing: 0
     is_attacking: 0
-    character: {fileID: 0}
   is_setup: 0
-  playerID: 0
   photon_viewID: 0
   photon_view: {fileID: 1989414464114271604}
   player_view: {fileID: 7323753969639945653}

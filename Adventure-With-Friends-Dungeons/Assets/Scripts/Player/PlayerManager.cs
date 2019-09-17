@@ -7,10 +7,20 @@ using System;
 using UnityEngine.UI;
 [System.Serializable] public class PlayerData {
     public string player_name;
+    public int photon_view_id;
+    public int player_id;    
     public int character_id;
     public bool is_playing = false;
     public bool is_attacking = false;
-    public Character character;
+    public void Reset(string name,int photon_id,int player_room_id){
+        player_name = name;
+        photon_view_id = photon_id;
+        player_id = player_room_id;
+        character_id = -1;
+        is_playing = false;
+        is_attacking = false;
+    }
+
 }
 [System.Serializable]   public class PlayerManager : MonoBehaviourPun,IPunObservable
 {
@@ -19,11 +29,12 @@ using UnityEngine.UI;
 
     //Accountability
     public bool is_setup = false;
-    public int playerID;
+    
     public int photon_viewID;
     public PhotonView photon_view;  
     public PlayerView player_view;
     public Camera player_camera;
+    Character selected_character;
     private void Start() {
         if(!photonView.IsMine) 
             return;
@@ -40,7 +51,7 @@ using UnityEngine.UI;
     }
     //MIDDLE - DURING THE ADVENTURE
     public void ToggleCombat(bool is_on){
-        data.character.ToggleCombat(is_on);
+        selected_character.ToggleCombat(is_on);
     }
     public void InputNext(){
         Debug.Log("Input next");
@@ -81,7 +92,7 @@ using UnityEngine.UI;
     //SETUP - BEFORE THE ADVENTURE GET STARTED
     IEnumerator WaitSetup(float seconds){
         yield return new WaitForSeconds(seconds);
-        if(!GameManager.instance.is_in_event)
+        if(!GameManager.instance.event_manager.data.is_in_event)
             player_view.FadeOverlay(0,2);
         Setup();
         yield break;
@@ -104,7 +115,6 @@ using UnityEngine.UI;
             //PhotonNetwork.AuthValues = new Photon.Realtime.AuthenticationValues((UnityEngine.Random.Range(99,99999)).ToString());
             player_camera.gameObject.SetActive(false);
         } else {
-            data.is_playing = false;
             player_view.ToggleCharacterSelection(1);
             player_camera.gameObject.SetActive(true);
         }
@@ -127,10 +137,10 @@ using UnityEngine.UI;
     }
     IEnumerator ChooseCharacterRoutine(byte[] id_byte) {
         data.character_id = BitConverter.ToInt32(id_byte,0);
-        while(GameManager.instance.is_in_event)
+        while(EventManager.instance.data.is_in_event)
             yield return null;
-        data.character = Instantiate(ObjectIndex.instance.available_characters[data.character_id].prefab,transform.position,Quaternion.identity).GetComponent<Character>();
-        data.character.transform.parent = player_view.transform;
+        selected_character = Instantiate(ObjectIndex.instance.available_characters[data.character_id].prefab,transform.position,Quaternion.identity).GetComponent<Character>();
+        selected_character.transform.parent = player_view.transform;
         UpdatePosition();
         player_view.SetupPlayer(data.player_name);
         player_view.FadeOverlay(0,2);
@@ -144,7 +154,7 @@ using UnityEngine.UI;
     }
     public void UpdatePosition() {
         Debug.Log("Updated GUI");
-        transform.position = new Vector3(playerID*2,0,0);
+        transform.position = new Vector3(data.player_id*2,0,0);
     }
     public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info){}   
 }

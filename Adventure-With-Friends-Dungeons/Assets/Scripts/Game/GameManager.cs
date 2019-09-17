@@ -14,7 +14,7 @@ using UnityEngine;
     int min_players_max_players = 2;
     //Game state
     public bool is_adventure_started = false;
-    public bool is_in_event = false;
+
     public bool is_synchronizing_players = false;
     public bool is_migrating_host = false;
 
@@ -49,7 +49,7 @@ using UnityEngine;
     }
     IEnumerator EnableNextRoutine() {
         yield return null;
-        while(is_in_event)
+        while(event_manager.data.is_in_event)
             yield return null;
         yield return new WaitForSeconds(1);
         for (int i = 0; i < listOfPlayersPlaying.Length; i++)
@@ -169,9 +169,10 @@ using UnityEngine;
         ChatManager.instance.AddEntry(received_name, " joined the adventure!","#2471a3","#2e86c1",false);
 
         PhotonView playerView = PhotonNetwork.GetPhotonView (receivedPhotonViewID);
-        //Debug.Log ("Adding new player with index of " + newPlayerIndex + " to the list of size " + listOfPlayersPlaying.Length);
+        Debug.Log ("Adding new player with index of " + newPlayerIndex + " to the list of size " + listOfPlayersPlaying.Length);
         listOfPlayersPlaying[newPlayerIndex] = playerView.GetComponent<PlayerManager>();
-        listOfPlayersPlaying[newPlayerIndex].data.player_name = received_name;
+        listOfPlayersPlaying[newPlayerIndex].data = new PlayerData();
+        listOfPlayersPlaying[newPlayerIndex].data.Reset(received_name,receivedPhotonViewID,newPlayerIndex);
 
         if (!PhotonNetwork.IsMasterClient)
             return;
@@ -182,56 +183,52 @@ using UnityEngine;
 #region Synchronization
     public void SynchronizeAllPlayers(PlayerManager[] ps){
         for (int i = 0; i < ps.Length; i++){
-            PlayerData d = ps[i].GetComponent<PlayerManager>().data;
             photon_view.RPC ("RPC_SynchronizePlayer", RpcTarget.All,
                 BitConverter.GetBytes(ps[i].photon_view.ViewID),
-                BitConverter.GetBytes(i),
                 BitConverter.GetBytes(ps.Length),
-                //game
+                //GameMAnager
                 BitConverter.GetBytes(is_adventure_started),
-                BitConverter.GetBytes(is_in_event),
-                BitConverter.GetBytes(event_manager.current_event_id),
-                //data
-                BitConverter.GetBytes(d.character_id),
-                BitConverter.GetBytes(d.is_playing)
+                //EventManager
+                Serialization.instance.SerializeEventData(event_manager.data),
+                //PlayerData
+                Serialization.instance.SerializePlayerData(ps[i].data)
             ); 
         }
     }
 
-    [PunRPC] public void RPC_SynchronizePlayer (byte[] viewIDBytes, byte[] indexBytes, byte[] listSizeBytes,byte[] is_started_byte,byte[] is_event_byte,byte[] event_id_byte, byte[] data_character_id_byte, byte[] is_playing_byte) {
+    [PunRPC] public void RPC_SynchronizePlayer (byte[] viewIDBytes, byte[] listSizeBytes,byte[] is_started_byte,byte[] event_data_bytes, byte[] player_data_bytes) {
         Debug.Log ("RPC_SynchronizePlayer");
         is_synchronizing_players = true;
         
 
         int receivedViewId = BitConverter.ToInt32 (viewIDBytes, 0);
         PhotonView receivedPlayer = PhotonNetwork.GetPhotonView (receivedViewId);
-        int receivedIndex = BitConverter.ToInt32 (indexBytes, 0);
         int receivedSize = BitConverter.ToInt32 (listSizeBytes, 0);
-        bool playing = BitConverter.ToBoolean(is_playing_byte,0);
-        bool started = BitConverter.ToBoolean(is_started_byte,0);
-        bool in_event = BitConverter.ToBoolean(is_event_byte,0);
-        int event_id = BitConverter.ToInt32(event_id_byte,0);
 
-        event_manager.current_event_id = event_id;
-        is_in_event = in_event;
+        
+        
+        bool started = BitConverter.ToBoolean(is_started_byte,0);
+
+        
         is_adventure_started = started;
 
-        PlayerManager received_manager = receivedPlayer.GetComponent<PlayerManager> ();
-        received_manager.playerID = receivedIndex;
-        received_manager.photon_viewID = receivedViewId;
+        PlayerManager received_player_manager = receivedPlayer.GetComponent<PlayerManager> ();
+        received_player_manager.photon_viewID = receivedViewId;
 
-        //data
-        received_manager.data.character_id = BitConverter.ToInt32(data_character_id_byte,0);
-        received_manager.data.is_playing = playing;
+        //EventData
+        event_manager.data = Serialization.instance.DeserializeEventData(event_data_bytes);
+
+        //PlayerData
+        received_player_manager.data = Serialization.instance.DeserializePlayerData(player_data_bytes);
 
         //Update GUI
-        received_manager.UpdatePosition();
+        received_player_manager.UpdatePosition();
 
         //If there is no list create it
         if (listOfPlayersPlaying == null || listOfPlayersPlaying.Length != receivedSize)
             listOfPlayersPlaying = new PlayerManager[receivedSize];
 
-        listOfPlayersPlaying[receivedIndex] = receivedPlayer.GetComponent<PlayerManager>();
+        listOfPlayersPlaying[received_player_manager.data.player_id] = receivedPlayer.GetComponent<PlayerManager>();
 
         is_synchronizing_players = false;
         Debug.Log ("Finished synchronizing player data");
