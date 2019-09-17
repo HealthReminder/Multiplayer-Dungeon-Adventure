@@ -10,6 +10,25 @@ public class Serialization : MonoBehaviour
     private void Start() {
         deserialized_event = DeserializeEventData(SerializeEventData(serialize_event));
     }
+    #region GameManager
+    public byte[] SerializeGameData(GameData g_data) {
+        //Create an array of the arrays you wanna serialize together
+        byte[][] arrays = new byte[2][];
+        arrays[0] = BitConverter.GetBytes(g_data.is_adventure_started);
+        arrays[1] = BitConverter.GetBytes(g_data.players_in_room);
+        Debug.Log("Serialized "+arrays.GetLength(0) + " arrays.");
+        //Concatenate the arrays
+        return(ArrayConcatenation.MergeArrays(arrays));
+    }
+    public GameData DeserializeGameData(byte[] bytes) {
+        GameData result_data = new GameData();
+        byte[][] data_array = ArrayConcatenation.UnmergeArrays(bytes);
+        Debug.Log("Deserialized "+data_array.GetLength(0) + " arrays.");
+        result_data.is_adventure_started = BitConverter.ToBoolean(data_array[0],0);
+        result_data.players_in_room = BitConverter.ToInt32(data_array[1],0);
+        return(result_data);
+    }
+    #endregion
     #region EventManager
     public byte[] SerializeEventData(EventData e_data) {
         //Create an array of the arrays you wanna serialize together

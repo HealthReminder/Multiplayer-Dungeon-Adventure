@@ -55,7 +55,7 @@ using UnityEngine.UI;
     }
     public void InputNext(){
         Debug.Log("Input next");
-        if(!GameManager.instance.is_adventure_started)
+        if(!GameManager.instance.data.is_adventure_started)
             return;
         StartCoroutine(InputNextRoutine());
     }
@@ -73,7 +73,7 @@ using UnityEngine.UI;
     //START - THE BEGGINING OF THE ADVENTURE
     public void InputStart(){
         Debug.Log("Input start");
-        if(GameManager.instance.is_adventure_started)
+        if(GameManager.instance.data.is_adventure_started)
             return;
         StartCoroutine(InputStartRoutine());
     }
@@ -148,7 +148,7 @@ using UnityEngine.UI;
         if(!photon_view.IsMine)
             yield break;
 
-        if(!GameManager.instance.is_adventure_started)
+        if(!GameManager.instance.data.is_adventure_started)
             player_view.ToggleStartInput(true);
         yield break;
     }
