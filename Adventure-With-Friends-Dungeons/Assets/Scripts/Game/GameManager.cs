@@ -14,6 +14,7 @@ using UnityEngine;
     public PlayerManager[] listOfPlayersPlaying;
     public PhotonView photon_view;
     public EventManager event_manager;
+    public EnemyManager enemy_manager;
     //Game state
     public bool is_synchronizing_players = false;
     public bool is_migrating_host = false;
@@ -145,7 +146,7 @@ using UnityEngine;
         ChatManager.instance.AddEntry("Someone"," abandoned the adventure.","#154360","#1b4f72",false);
         data.players_in_room = listOfPlayersPlaying.Length;
 
-        SynchronizeAllPlayers(listOfPlayersPlaying);
+        SynchronizeAllPlayers();
     }
     [PunRPC] public void RPC_AddPlayer (byte[] viewBytes,byte[] name_bytes) {
         //This function is responsible for adding the player to the listOfPlayersPlaying 
@@ -183,16 +184,18 @@ using UnityEngine;
         if (!PhotonNetwork.IsMasterClient)
             return;
         
-        SynchronizeAllPlayers(listOfPlayersPlaying);
+        SynchronizeAllPlayers();
     }
-    public void SynchronizeAllPlayers(PlayerManager[] ps){
-        for (int i = 0; i < ps.Length; i++){
+    public void SynchronizeAllPlayers(){
+        for (int i = 0; i < listOfPlayersPlaying.Length; i++){
             photon_view.RPC ("RPC_SynchronizePlayer", RpcTarget.All,
                 Serialization.instance.SerializeGameData(data),
                 //EventManager
                 Serialization.instance.SerializeEventData(event_manager.data),
+                //EnemyData
+                //Serialization.instance.SerializeEnemyData(enemy_manager.data, enemy_manager.available_enemies),
                 //PlayerData
-                Serialization.instance.SerializePlayerData(ps[i].data)
+                Serialization.instance.SerializePlayerData(listOfPlayersPlaying[i].data)
             ); 
         }
     }
@@ -207,6 +210,9 @@ using UnityEngine;
 
         //EventData
         event_manager.data = Serialization.instance.DeserializeEventData(event_data_bytes);
+
+        //EnemyData
+        //enemy_manager.data = Serialization.instance.DeserializeEnemyData(enemy_data_bytes,enemy_manager.available_enemies);
 
         //PlayerData
         PlayerData received_player_data = Serialization.instance.DeserializePlayerData(player_data_bytes);

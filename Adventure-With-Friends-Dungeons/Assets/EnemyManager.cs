@@ -1,11 +1,15 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
+[System.Serializable]   public class EnemyData {
+    public bool in_combat;
+    public List<Enemy> current_enemies;
+}
 public class EnemyManager : MonoBehaviour
 {
+    [SerializeField]public EnemyData data;
     public Enemy[] available_enemies;
-    public List<Enemy> current_enemies;
+    
     public Transform enemy_container;
     
     private void Update() {
@@ -13,6 +17,25 @@ public class EnemyManager : MonoBehaviour
             GenerateCombat(6);
         if(Input.GetKeyDown(KeyCode.C))
             Reset();
+    }
+    public IEnumerator ToggleCombat(bool is_on) {
+        data.in_combat = is_on;
+        if(is_on){
+            if(data.current_enemies[0] != null)
+            while(data.current_enemies[0].sprt_renderer.color.a < 1){
+                foreach (Enemy e in data.current_enemies)
+                    e.sprt_renderer.color += new Color(0,0,0,0.05f);
+                yield return null;
+            }         
+        } else {
+            if(data.current_enemies[0] != null)
+            while(data.current_enemies[0].sprt_renderer.color.a > 0){
+                foreach (Enemy e in data.current_enemies)
+                    e.sprt_renderer.color += new Color(0,0,0,-0.05f);
+                yield return null;
+            }
+        }
+        yield break;
     }
     public void GenerateCombat(int target_threat_level) {
         Reset();
@@ -36,36 +59,36 @@ public class EnemyManager : MonoBehaviour
             tries++;
         }
         Debug.Log("Generated "+final_list.Count+" enemies.");
-        current_enemies = new List<Enemy>();
+        data.current_enemies = new List<Enemy>();
         for (int i = 0; i < final_list.Count; i++)
         {
             GameObject new_enemy = Instantiate(final_list[i].gameObject,transform.position,Quaternion.identity);
             
             new_enemy.transform.localScale = new Vector3(Random.Range(0,2)*2-1,1,1);
             new_enemy.transform.parent = enemy_container;
-            current_enemies.Add(new_enemy.GetComponent<Enemy>());
+            data.current_enemies.Add(new_enemy.GetComponent<Enemy>());
         }
         OrganizeEnemies();
         
     }   
     void OrganizeEnemies() {
-        for (int i = 0; i < current_enemies.Count; i++)
+        for (int i = 0; i < data.current_enemies.Count; i++)
         {
             if(i == 0)
-                current_enemies[i].transform.position = enemy_container.position;
+                data.current_enemies[i].transform.position = enemy_container.position;
             else if(i%2 == 0) {
-                float last_size = current_enemies[i-2].initial_stats.half_size;
-                current_enemies[i].transform.position = current_enemies[i-2].transform.position + new Vector3(last_size+ current_enemies[i].initial_stats.half_size,0,0) ;// + new Vector3(i-1*i/2,0,0);
+                float last_size = data.current_enemies[i-2].initial_stats.half_size;
+                data.current_enemies[i].transform.position = data.current_enemies[i-2].transform.position + new Vector3(last_size+ data.current_enemies[i].initial_stats.half_size,0,0) ;// + new Vector3(i-1*i/2,0,0);
             }
             else {
                 float last_size;
                 if(i-2 < 0){
-                    last_size = current_enemies[0].initial_stats.half_size;
-                    current_enemies[i].transform.position = current_enemies[0].transform.position - new Vector3(last_size+ current_enemies[i].initial_stats.half_size,0,0) ;
+                    last_size = data.current_enemies[0].initial_stats.half_size;
+                    data.current_enemies[i].transform.position = data.current_enemies[0].transform.position - new Vector3(last_size+ data.current_enemies[i].initial_stats.half_size,0,0) ;
                 } else
                 {
-                    last_size = current_enemies[i-2].initial_stats.half_size;
-                    current_enemies[i].transform.position = current_enemies[i-2].transform.position - new Vector3(last_size+ current_enemies[i].initial_stats.half_size,0,0) ;
+                    last_size = data.current_enemies[i-2].initial_stats.half_size;
+                    data.current_enemies[i].transform.position = data.current_enemies[i-2].transform.position - new Vector3(last_size+ data.current_enemies[i].initial_stats.half_size,0,0) ;
                 }
                 
             }
@@ -73,10 +96,18 @@ public class EnemyManager : MonoBehaviour
         Debug.Log("Organized enemy positions.");
     }
     void Reset() {
-        if(current_enemies != null)
-            for (int i = current_enemies.Count-1; i >= 0; i--)
-                if(current_enemies[i])
-                    Destroy(current_enemies[i].gameObject);
-        current_enemies = new List<Enemy>();
+        if(data.current_enemies != null)
+            for (int i = data.current_enemies.Count-1; i >= 0; i--)
+                if(data.current_enemies[i])
+                    Destroy(data.current_enemies[i].gameObject);
+        data.current_enemies = new List<Enemy>();
+        Debug.Log("Reseted enemy manager.");
     }
+    private void Awake() {
+        instance = this;
+        data = new EnemyData();
+        data.in_combat = false;
+        data.current_enemies = new List<Enemy>();
+    }
+    public static EnemyManager instance;
 }

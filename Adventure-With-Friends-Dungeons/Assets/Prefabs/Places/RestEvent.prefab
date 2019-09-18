@@ -4766,14 +4766,7 @@ MonoBehaviour:
     - {fileID: 2502380882663249152}
     sprites:
     - {fileID: 2502380883246774898}
-    distance: 4
-  - name: Fireplace
-    place_container: {fileID: 2502380883246774909}
-    p_s:
-    - {fileID: 2502380882663249152}
-    sprites:
-    - {fileID: 2502380883246774898}
-    distance: 6
+    distance: 1
 --- !u!1 &2502380883246774909
 GameObject:
   m_ObjectHideFlags: 0

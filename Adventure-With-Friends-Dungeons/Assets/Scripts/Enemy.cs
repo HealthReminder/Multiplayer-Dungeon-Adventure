@@ -23,6 +23,7 @@ public class Enemy : MonoBehaviour
     public PhotonView photon_view;
     public bool is_dead = false;
     public PlayerManager current_target;
+    public SpriteRenderer sprt_renderer;
 
 #region Player Reaction
     public void GetHit(float dmg) {

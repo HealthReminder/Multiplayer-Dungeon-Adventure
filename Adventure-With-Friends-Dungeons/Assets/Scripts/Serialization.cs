@@ -5,10 +5,11 @@ using System;
 
 public class Serialization : MonoBehaviour
 {    
-    [SerializeField] public EventData serialize_event;
-    [SerializeField] public EventData deserialized_event;
-    private void Start() {
-        deserialized_event = DeserializeEventData(SerializeEventData(serialize_event));
+    //[SerializeField] public EnemyData serialize_event;
+    //[SerializeField] public EnemyData deserialized_event;
+    private void Update() {
+        //if(Input.GetKeyDown(KeyCode.A))
+        //    deserialized_event = DeserializeEnemyData(SerializeEnemyData(serialize_event,EnemyManager.instance.available_enemies),EnemyManager.instance.available_enemies);
     }
     #region GameManager
     public byte[] SerializeGameData(GameData g_data) {
@@ -26,6 +27,42 @@ public class Serialization : MonoBehaviour
         Debug.Log("Deserialized "+data_array.GetLength(0) + " arrays.");
         result_data.is_adventure_started = BitConverter.ToBoolean(data_array[0],0);
         result_data.players_in_room = BitConverter.ToInt32(data_array[1],0);
+        return(result_data);
+    }
+    #endregion
+    #region EnemyManager
+    public byte[] SerializeEnemyData(EnemyData e_data, Enemy[] enemies_available) {
+        //Create an array of the arrays you wanna serialize together
+        byte[][] arrays = new byte[e_data.current_enemies.Count+2][];
+        arrays[0] = BitConverter.GetBytes(e_data.in_combat);
+        arrays[1] = BitConverter.GetBytes(e_data.current_enemies.Count);
+        for (int i = 0; i < e_data.current_enemies.Count; i++)
+            if(e_data.current_enemies[i] != null){
+                for (int o = 0; o < enemies_available.Length; o++)
+                    if(enemies_available[o] == e_data.current_enemies[i])
+                        arrays[i+2] = BitConverter.GetBytes(o);   
+            } else 
+                arrays[i+2] = BitConverter.GetBytes((int)(-1));
+
+        Debug.Log("There was "+e_data.current_enemies.Count+" enemies.");
+        Debug.Log("Serialized "+arrays.GetLength(0) + " arrays.");
+        //Concatenate the arrays
+        return(ArrayConcatenation.MergeArrays(arrays));
+    }
+    public EnemyData DeserializeEnemyData(byte[] bytes, Enemy[] enemies_available) {
+        EnemyData result_data = new EnemyData();
+        byte[][] data_array = ArrayConcatenation.UnmergeArrays(bytes);
+        Debug.Log("Deserialized "+data_array.GetLength(0) + " arrays.");
+        result_data.in_combat = BitConverter.ToBoolean(data_array[0],0);
+        int enemy_quantity = BitConverter.ToInt32(data_array[1],0);
+        Debug.Log("There are "+enemy_quantity+" enemies");
+        List<Enemy> new_enemy_list = new List<Enemy>();
+        for (int i = 2; i < enemy_quantity+2; i++){
+            int character_id = BitConverter.ToInt32(data_array[i],0);
+            if(character_id != -1)
+                new_enemy_list.Add(enemies_available[character_id]);
+        }
+        result_data.current_enemies = new_enemy_list;
         return(result_data);
     }
     #endregion

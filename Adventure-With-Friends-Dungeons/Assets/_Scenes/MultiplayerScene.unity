@@ -143,7 +143,7 @@ Transform:
   - {fileID: 447421011}
   - {fileID: 428192084}
   m_Father: {fileID: 1179419892}
-  m_RootOrder: 2
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &19786469
 MonoBehaviour:
@@ -471,11 +471,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d613283ff41a9f3438e8e0ade1e115a9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  data:
+    in_combat: 0
+    current_enemies: []
   available_enemies:
   - {fileID: 6947279350616233736, guid: 7f74fef79bf4c004096beeb3696121da, type: 3}
   - {fileID: 4952366600279615038, guid: 0634f88d6430d554abfa3f897618dbb6, type: 3}
   - {fileID: 690298063439754961, guid: a5136a2d69849d3449fb000519e2ebf1, type: 3}
-  current_enemies: []
   enemy_container: {fileID: 1079468754}
 --- !u!4 &275552085
 Transform:
@@ -484,13 +486,13 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 275552083}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 1079468754}
-  m_Father: {fileID: 0}
-  m_RootOrder: 4
+  m_Father: {fileID: 1179419892}
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &295717474
 GameObject:
@@ -621,7 +623,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 1179419892}
-  m_RootOrder: 1
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &409782666
 GameObject:
@@ -687,7 +689,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 1179419892}
-  m_RootOrder: 3
+  m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &428192083
 GameObject:
@@ -1200,7 +1202,7 @@ Transform:
   m_Children:
   - {fileID: 600066903}
   m_Father: {fileID: 1179419892}
-  m_RootOrder: 0
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &624142557
 MonoBehaviour:
@@ -1623,10 +1625,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 08a8ec3ad6d5cdd459b599184b622dc9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  data:
+    is_adventure_started: 0
+    players_in_room: 0
   listOfPlayersPlaying: []
   photon_view: {fileID: 1179419893}
   event_manager: {fileID: 1179419894}
-  is_adventure_started: 0
+  enemy_manager: {fileID: 275552084}
   is_synchronizing_players: 0
   is_migrating_host: 0
 --- !u!4 &1179419892
@@ -1640,6 +1645,7 @@ Transform:
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
+  - {fileID: 275552085}
   - {fileID: 624142556}
   - {fileID: 408781966}
   - {fileID: 19786468}
@@ -1721,7 +1727,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 1179419892}
-  m_RootOrder: 4
+  m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1284582610
 GameObject:
@@ -2374,12 +2380,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8cef74c0d18d025478d5f51c3d9a8a9b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  serialize_event:
-    current_event_id: 0
-    is_in_event: 1
-  deserialized_event:
-    current_event_id: 0
-    is_in_event: 0
 --- !u!4 &1740477306
 Transform:
   m_ObjectHideFlags: 0
@@ -2392,7 +2392,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 5
+  m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1740809936
 GameObject:

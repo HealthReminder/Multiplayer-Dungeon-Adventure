@@ -131,6 +131,7 @@ MonoBehaviour:
   photon_view: {fileID: 7066875710653349375}
   is_dead: 0
   current_target: {fileID: 0}
+  sprt_renderer: {fileID: 4473211767235509743}
 --- !u!114 &7066875710653349375
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -42,10 +42,10 @@ public class EventManager : MonoBehaviour
         current_event_adventure = current_event_object.GetComponent<AdventureEvent>();
         current_event_adventure.Initiate();
 
-        StartCoroutine(EventRoutine());
+        StartCoroutine(EventRoutine(seed));
     }
 
-    IEnumerator EventRoutine() {
+    IEnumerator EventRoutine(float enemies_seed) {
         //Do enemies first
         //For each place
         //Walk for x/2 seconds 
@@ -56,7 +56,18 @@ public class EventManager : MonoBehaviour
         for (int i = 0; i < current_event_adventure.places.Length ; i++)
         {
             current_place = i;
+            //Show enemies
             yield return bv.ToggleMovementRoutine(0.5f,1);
+            yield return new WaitForSeconds(1);
+            yield return bv.ToggleMovementRoutine(0,1);
+            EnemyManager.instance.GenerateCombat(5);
+            if(PhotonNetwork.IsMasterClient)
+                GameManager.instance.SynchronizeAllPlayers();
+            yield return EnemyManager.instance.ToggleCombat(true);
+            yield return new WaitForSeconds(5);
+            yield return EnemyManager.instance.ToggleCombat(false);
+            yield return bv.ToggleMovementRoutine(0.5f,1);
+            //Go to the place
             yield return new WaitForSeconds(1*current_event_adventure.places[i].distance);
             yield return bv.ToggleMovementRoutine(0,1);
             yield return current_event_adventure.TogglePlaceRoutine(current_event_adventure.places[i],1,true);
