@@ -14,7 +14,7 @@ public class EnemyManager : MonoBehaviour
     
     private void Update() {
         if(Input.GetKeyDown(KeyCode.G))
-            GenerateCombat(6);
+            CalculateEnemies(6);
         if(Input.GetKeyDown(KeyCode.C))
             Reset();
     }
@@ -37,17 +37,18 @@ public class EnemyManager : MonoBehaviour
         }
         yield break;
     }
-    public void GenerateCombat(int target_threat_level) {
+    public Enemy[] CalculateEnemies(int target_threat_level) {
         Reset();
         List<Enemy> available_list = new List<Enemy>();
         List<Enemy> final_list = new List<Enemy>();
+        //Reference all enemies available
         for (int i = 0; i < available_enemies.Length; i++)
             available_list.Add(available_enemies[i]);
-        //Get enemies that are less or equal threat_level
+        //Take out the ones higher than the threat level
         for (int i = available_list.Count-1; i >=0 ; i--)
             if(available_list[i].initial_stats.level > target_threat_level)
                 available_list.RemoveAt(i);
-        //Get random enemies
+        //Get a random asort of enemies and store them
         int current_threat_level = 0;
         int tries = 0;
         while(current_threat_level <= target_threat_level && tries < 50) {
@@ -58,19 +59,21 @@ public class EnemyManager : MonoBehaviour
             }
             tries++;
         }
-        Debug.Log("Generated "+final_list.Count+" enemies.");
+        return (final_list.ToArray());
+    }   
+    public void GenerateCombat(Enemy[] new_enemies) {
+        //This function is called in every computer after the master had already calculated the enemies
+        Debug.Log("Generated "+new_enemies.Length+" enemies.");
         data.current_enemies = new List<Enemy>();
-        for (int i = 0; i < final_list.Count; i++)
+        for (int i = 0; i < new_enemies.Length; i++)
         {
-            GameObject new_enemy = Instantiate(final_list[i].gameObject,transform.position,Quaternion.identity);
-            
+            GameObject new_enemy = Instantiate(new_enemies[i].gameObject,transform.position,Quaternion.identity);
             new_enemy.transform.localScale = new Vector3(Random.Range(0,2)*2-1,1,1);
             new_enemy.transform.parent = enemy_container;
             data.current_enemies.Add(new_enemy.GetComponent<Enemy>());
         }
         OrganizeEnemies();
-        
-    }   
+    }
     void OrganizeEnemies() {
         for (int i = 0; i < data.current_enemies.Count; i++)
         {

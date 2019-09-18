@@ -1,52 +1,69 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-[System.Serializable] public struct Place
+[System.Serializable] public class Stop
 {
     public string name;
-    public GameObject place_container;
-    public ParticleSystem[] p_s;
-    public SpriteRenderer[] sprites;
     public int distance;
+    public Enemy[] enemies;
+    [Header("View")]
+    public GameObject stop_container;
+    public ParticleSystem[] particles;
+    public SpriteRenderer[] sprites;
 }
 [System.Serializable]  public class AdventureEvent : MonoBehaviour{
-    public GameObject[] enemies;
-    public Place[] places;
+    public Stop[] stops;
     bool is_transitioning = false;
     
     public void Initiate() {
         Debug.Log("Encounter initiated"); 
-        foreach (Place pl in places) {
-            foreach (ParticleSystem p in pl.p_s)
+        foreach (Stop stop in stops) {
+            foreach (ParticleSystem p in stop.particles)
                 p.Stop();
-            foreach (SpriteRenderer s in pl.sprites)
+            foreach (SpriteRenderer s in stop.sprites)
                 s.color += new Color(0,0,0,-1);            
         }
-            
     }
-    public IEnumerator TogglePlaceRoutine(Place place, float step, bool is_on) {
+    public IEnumerator ToggleStopRoutine(Stop stop, float step, bool is_on) {
         //Get stuff
         while(is_transitioning)
             yield return null;
         Debug.Log("Toggling adventure event to "+is_on);
         is_transitioning = true;
-        SpriteRenderer[] sprites = place.sprites;
-        ParticleSystem[] particles = place.p_s;
+        SpriteRenderer[] sprites = stop.sprites;
+        ParticleSystem[] particles = stop.particles;
+        Enemy[] enemies = stop.enemies;
         if(is_on) {
-            place.place_container.SetActive(false);
+            stop.stop_container.SetActive(false);
+            //Turn enemies off
+            foreach (Enemy e in enemies)
+                    e.sprt_renderer.color += new Color(0,0,0,-1);
             //Turn particles off
             foreach (ParticleSystem p in particles)
                 p.Stop();
             yield return null;
-            place.place_container.SetActive(true);
-            //Fade in sprites
-            while(sprites[0].color.a < 1)   {
-                foreach (SpriteRenderer s in sprites)
-                    s.color += new Color(0,0,0,0.01f*step);
-                yield return null;
-            }
-            yield return null;
-            //Start particles
+             //Turn object on
+            stop.stop_container.SetActive(true);
+
+            //Show place
+            if(sprites != null)
+                if(sprites.Length > 0)
+                    while(sprites[0].color.a < 1)   {
+                        foreach (SpriteRenderer s in sprites)
+                            s.color += new Color(0,0,0,0.01f*step);
+                        yield return null;
+                    }
+
+            //Show Enemies
+            if(enemies != null)
+                if(enemies.Length > 0)
+                    while(enemies[0].sprt_renderer.color.a < 1)   {
+                        foreach (Enemy e in enemies)
+                            e.sprt_renderer.color += new Color(0,0,0,0.01f*step);
+                        yield return null;
+                    }
+
+            //Show particles
             foreach (ParticleSystem p in particles){
                 p.Play();
                 yield return null;
@@ -56,12 +73,22 @@ using UnityEngine;
             foreach (ParticleSystem p in particles)
                 p.Stop();
             yield return null;
+            //Fade out enemies
+            if(enemies != null)
+                if(enemies.Length > 0)
+                    while(enemies[0].sprt_renderer.color.a > 0)   {
+                        foreach (Enemy e in enemies)
+                            e.sprt_renderer.color += new Color(0,0,0,-0.01f*step);
+                        yield return null;
+                    }
             //Fade out sprites
-            while(sprites[0].color.a > 0)   {
-                foreach (SpriteRenderer s in sprites)
-                    s.color += new Color(0,0,0,-0.01f*step);
-                yield return null;
-            }
+            if(sprites != null)
+                if(sprites.Length > 0)
+                    while(sprites[0].color.a > 0)   {
+                        foreach (SpriteRenderer s in sprites)
+                            s.color += new Color(0,0,0,-0.01f*step);
+                        yield return null;
+                    }
         }
         is_transitioning = false;
         yield break;
