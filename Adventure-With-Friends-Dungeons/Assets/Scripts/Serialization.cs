@@ -33,10 +33,10 @@ public class Serialization : MonoBehaviour
     #region EnemyManager
     public byte[] SerializeEnemyData(EnemyData e_data, Enemy[] enemies_available) {
         //Create an array of the arrays you wanna serialize together
-        byte[][] arrays = new byte[e_data.current_enemies.Count+2][];
+        byte[][] arrays = new byte[e_data.current_enemies.Length+2][];
         arrays[0] = BitConverter.GetBytes(e_data.in_combat);
-        arrays[1] = BitConverter.GetBytes(e_data.current_enemies.Count);
-        for (int i = 0; i < e_data.current_enemies.Count; i++)
+        arrays[1] = BitConverter.GetBytes(e_data.current_enemies.Length);
+        for (int i = 0; i < e_data.current_enemies.Length; i++)
             if(e_data.current_enemies[i] != null){
                 for (int o = 0; o < enemies_available.Length; o++)
                     if(enemies_available[o] == e_data.current_enemies[i])
@@ -44,7 +44,7 @@ public class Serialization : MonoBehaviour
             } else 
                 arrays[i+2] = BitConverter.GetBytes((int)(-1));
 
-        Debug.Log("There was "+e_data.current_enemies.Count+" enemies.");
+        Debug.Log("There was "+e_data.current_enemies.Length+" enemies.");
         Debug.Log("Serialized "+arrays.GetLength(0) + " arrays.");
         //Concatenate the arrays
         return(ArrayConcatenation.MergeArrays(arrays));
@@ -56,11 +56,11 @@ public class Serialization : MonoBehaviour
         result_data.in_combat = BitConverter.ToBoolean(data_array[0],0);
         int enemy_quantity = BitConverter.ToInt32(data_array[1],0);
         Debug.Log("There are "+enemy_quantity+" enemies");
-        List<Enemy> new_enemy_list = new List<Enemy>();
+        Enemy[] new_enemy_list = new Enemy[enemy_quantity];
         for (int i = 2; i < enemy_quantity+2; i++){
             int character_id = BitConverter.ToInt32(data_array[i],0);
-            if(character_id != -1)
-                new_enemy_list.Add(enemies_available[character_id]);
+            //if(character_id != -1)
+                //new_enemy_list.Add(enemies_available[character_id]);
         }
         result_data.current_enemies = new_enemy_list;
         return(result_data);
