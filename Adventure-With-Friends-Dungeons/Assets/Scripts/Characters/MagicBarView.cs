@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
+using System.Collections;
 
 //Character resets the behaviour on start
 //Player can roll dice to increase value
@@ -9,6 +10,7 @@ using UnityEngine.UI;
 public class MagicBarView : MonoBehaviour
 {
     public bool is_on = false;
+    public bool is_enabled = false;
     public int cap = 13;
     public int current_value = 0;
     public Image filler_image;
@@ -17,7 +19,7 @@ public class MagicBarView : MonoBehaviour
         Reset(false);
     }
     public void RollDice() {
-        if(!is_on)
+        if(!is_enabled)
             return;
 
         int roll = Random.Range(1,7);
@@ -55,22 +57,33 @@ public class MagicBarView : MonoBehaviour
 #endregion
 #region INPUT
     public void OnAttack() {
-        if(!is_on)
+        if(!is_enabled)
             return;
         GUI_Attack();
-        is_on = false;
+        is_enabled = false;
+        EnemyManager.instance.DealDamageRandom(current_value);
+        StartCoroutine(TurnOnCooldown(1.5f));
         Debug.Log("Mage released its power!");
     }
 #endregion
 #region CONSEQUENCES
     void OnOverflow() {
-        is_on = false;
+        is_enabled = false;
         GUI_Overflow();
+        StartCoroutine(TurnOnCooldown(3));
         Debug.Log("Mage overflowed its power.");
     }
+    IEnumerator TurnOnCooldown(float time){
+        yield return new WaitForSeconds(time);
+        if(is_on)
+            Reset(true);
+    }
     void OnJackpot() {
-        is_on = false;
+        is_enabled = false;
         GUI_JackPot();
+        is_enabled = false;
+        EnemyManager.instance.DealDamageRandom(current_value*2);
+        StartCoroutine(TurnOnCooldown(1f));
         Debug.Log("Mage released its full power!");
     }
 #endregion
@@ -79,6 +92,7 @@ public class MagicBarView : MonoBehaviour
         current_value = 0;
         GUI_Update();
         GUI_ToggleInput(state);
+        is_enabled = state;
         is_on = state;
         Debug.Log("Mage overflowed its power.");
     }

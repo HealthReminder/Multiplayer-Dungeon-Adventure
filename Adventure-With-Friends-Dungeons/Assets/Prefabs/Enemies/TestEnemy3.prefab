@@ -10,7 +10,6 @@ GameObject:
   m_Component:
   - component: {fileID: 1400359350809647798}
   - component: {fileID: 690298063439754961}
-  - component: {fileID: 569947678257611845}
   m_Layer: 0
   m_Name: TestEnemy3
   m_TagString: Threat
@@ -46,35 +45,15 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   initial_stats:
+    name: Big Boss
     initial_hp: 30
     level: 3
     half_size: 2
-  photon_view: {fileID: 569947678257611845}
+  current_stats:
+    is_dead: 0
+    current_hp: 0
   is_dead: 0
-  current_target: {fileID: 0}
   sprt_renderer: {fileID: 835131652428520509}
---- !u!114 &569947678257611845
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4087570451532488578}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: aa584fbee541324448dd18d8409c7a41, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  ObservedComponentsFoldoutOpen: 1
-  Group: 0
-  prefixField: -1
-  Synchronization: 0
-  OwnershipTransfer: 0
-  ObservedComponents:
-  - {fileID: 0}
-  viewIdField: 0
-  InstantiationId: 2
-  isRuntimeInstantiated: 0
 --- !u!1 &4686283882178293552
 GameObject:
   m_ObjectHideFlags: 0

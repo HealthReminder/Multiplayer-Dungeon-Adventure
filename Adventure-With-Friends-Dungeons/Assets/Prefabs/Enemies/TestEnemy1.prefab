@@ -89,7 +89,6 @@ GameObject:
   m_Component:
   - component: {fileID: 5563427146597053963}
   - component: {fileID: 6947279350616233736}
-  - component: {fileID: 121509522784003886}
   m_Layer: 0
   m_Name: TestEnemy1
   m_TagString: Threat
@@ -125,32 +124,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   initial_stats:
+    name: Shroomie
     initial_hp: 10
     level: 1
     half_size: 0.5
-  photon_view: {fileID: 121509522784003886}
+  current_stats:
+    is_dead: 0
+    current_hp: 0
   is_dead: 0
-  current_target: {fileID: 0}
   sprt_renderer: {fileID: 2558638832886220227}
---- !u!114 &121509522784003886
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5760267159092912167}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: aa584fbee541324448dd18d8409c7a41, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  ObservedComponentsFoldoutOpen: 1
-  Group: 0
-  prefixField: -1
-  Synchronization: 0
-  OwnershipTransfer: 0
-  ObservedComponents:
-  - {fileID: 0}
-  viewIdField: 0
-  InstantiationId: 4
-  isRuntimeInstantiated: 0

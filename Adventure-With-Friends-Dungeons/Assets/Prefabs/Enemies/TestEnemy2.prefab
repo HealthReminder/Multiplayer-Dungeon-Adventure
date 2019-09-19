@@ -89,7 +89,6 @@ GameObject:
   m_Component:
   - component: {fileID: 6937396265874328976}
   - component: {fileID: 4952366600279615038}
-  - component: {fileID: 7066875710653349375}
   m_Layer: 0
   m_Name: TestEnemy2
   m_TagString: Threat
@@ -125,32 +124,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   initial_stats:
+    name: Elephantiasis
     initial_hp: 20
     level: 2
     half_size: 1
-  photon_view: {fileID: 7066875710653349375}
+  current_stats:
+    is_dead: 0
+    current_hp: 0
   is_dead: 0
-  current_target: {fileID: 0}
   sprt_renderer: {fileID: 4473211767235509743}
---- !u!114 &7066875710653349375
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3117739532160483125}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: aa584fbee541324448dd18d8409c7a41, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  ObservedComponentsFoldoutOpen: 1
-  Group: 0
-  prefixField: -1
-  Synchronization: 0
-  OwnershipTransfer: 0
-  ObservedComponents:
-  - {fileID: 0}
-  viewIdField: 0
-  InstantiationId: 1
-  isRuntimeInstantiated: 0

@@ -88,13 +88,12 @@ public class Serialization : MonoBehaviour
     #region PlayerData
     public byte[] SerializePlayerData(PlayerData p_data) {
         //Create an array of the arrays you wanna serialize together
-        byte[][] arrays = new byte[6][];
+        byte[][] arrays = new byte[5][];
         arrays[0] = System.Text.Encoding.UTF8.GetBytes(p_data.player_name);
         arrays[1] = BitConverter.GetBytes(p_data.photon_view_id);
         arrays[2] = BitConverter.GetBytes(p_data.player_id);
         arrays[3] = BitConverter.GetBytes(p_data.character_id);
         arrays[4] = BitConverter.GetBytes(p_data.is_playing);
-        arrays[5] = BitConverter.GetBytes(p_data.is_attacking);
         Debug.Log("Serialized "+arrays.GetLength(0) + " arrays.");
         //Concatenate the arrays
         return(ArrayConcatenation.MergeArrays(arrays));
@@ -108,7 +107,6 @@ public class Serialization : MonoBehaviour
         result_data.player_id = BitConverter.ToInt32(data_array[2],0);
         result_data.character_id = BitConverter.ToInt32(data_array[3],0);
         result_data.is_playing = BitConverter.ToBoolean(data_array[4],0);
-        result_data.is_attacking = BitConverter.ToBoolean(data_array[5],0);
         return(result_data);
     }
     #endregion

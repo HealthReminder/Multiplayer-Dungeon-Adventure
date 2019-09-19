@@ -452,6 +452,7 @@ GameObject:
   m_Component:
   - component: {fileID: 275552085}
   - component: {fileID: 275552084}
+  - component: {fileID: 275552086}
   m_Layer: 0
   m_Name: EnemyManager
   m_TagString: Untagged
@@ -474,11 +475,8 @@ MonoBehaviour:
   data:
     in_combat: 0
     current_enemies: []
-  available_enemies:
-  - {fileID: 6947279350616233736, guid: 7f74fef79bf4c004096beeb3696121da, type: 3}
-  - {fileID: 4952366600279615038, guid: 0634f88d6430d554abfa3f897618dbb6, type: 3}
-  - {fileID: 690298063439754961, guid: a5136a2d69849d3449fb000519e2ebf1, type: 3}
   enemy_container: {fileID: 1079468754}
+  photon_view: {fileID: 275552086}
 --- !u!4 &275552085
 Transform:
   m_ObjectHideFlags: 0
@@ -494,6 +492,28 @@ Transform:
   m_Father: {fileID: 1179419892}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &275552086
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 275552083}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: aa584fbee541324448dd18d8409c7a41, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ObservedComponentsFoldoutOpen: 1
+  Group: 0
+  prefixField: -1
+  Synchronization: 0
+  OwnershipTransfer: 0
+  ObservedComponents:
+  - {fileID: 0}
+  viewIdField: 99999
+  InstantiationId: 99999
+  isRuntimeInstantiated: 0
 --- !u!1 &295717474
 GameObject:
   m_ObjectHideFlags: 0
@@ -1223,8 +1243,8 @@ MonoBehaviour:
   OwnershipTransfer: 0
   ObservedComponents:
   - {fileID: 0}
-  viewIdField: 99999
-  InstantiationId: 99999
+  viewIdField: 1
+  InstantiationId: 1
   isRuntimeInstantiated: 0
 --- !u!1 &659971062
 GameObject:
@@ -2891,46 +2911,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1837347174245634724, guid: ed73ae9492259a541958e36b83009aff,
-        type: 3}
-      propertyPath: viewIdField
-      value: 9
-      objectReference: {fileID: 0}
-    - target: {fileID: 8863297179983444063, guid: ed73ae9492259a541958e36b83009aff,
-        type: 3}
-      propertyPath: viewIdField
-      value: 8
-      objectReference: {fileID: 0}
-    - target: {fileID: 1099080976022270654, guid: ed73ae9492259a541958e36b83009aff,
-        type: 3}
-      propertyPath: viewIdField
-      value: 7
-      objectReference: {fileID: 0}
-    - target: {fileID: 2371105897103955708, guid: ed73ae9492259a541958e36b83009aff,
-        type: 3}
-      propertyPath: viewIdField
-      value: 6
-      objectReference: {fileID: 0}
-    - target: {fileID: 7988831805484625149, guid: ed73ae9492259a541958e36b83009aff,
-        type: 3}
-      propertyPath: viewIdField
-      value: 5
-      objectReference: {fileID: 0}
-    - target: {fileID: 8486442256872651193, guid: ed73ae9492259a541958e36b83009aff,
-        type: 3}
-      propertyPath: viewIdField
-      value: 4
-      objectReference: {fileID: 0}
-    - target: {fileID: 4210057966102102615, guid: ed73ae9492259a541958e36b83009aff,
-        type: 3}
-      propertyPath: viewIdField
-      value: 2
-      objectReference: {fileID: 0}
-    - target: {fileID: 8381172930829554615, guid: ed73ae9492259a541958e36b83009aff,
-        type: 3}
-      propertyPath: viewIdField
-      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: ed73ae9492259a541958e36b83009aff, type: 3}

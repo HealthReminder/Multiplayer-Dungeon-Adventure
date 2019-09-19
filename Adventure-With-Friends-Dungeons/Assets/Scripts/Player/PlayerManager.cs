@@ -11,14 +11,12 @@ using UnityEngine.UI;
     public int player_id;    
     public int character_id;
     public bool is_playing = false;
-    public bool is_attacking = false;
     public void Reset(string name,int photon_id,int player_room_id){
         player_name = name;
         photon_view_id = photon_id;
         player_id = player_room_id;
         character_id = -1;
         is_playing = false;
-        is_attacking = false;
     }
 
 }

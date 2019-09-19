@@ -203,7 +203,7 @@ e1e615eaf73e560828f53edc8952e615 PhotonUnityNetworking.Utilities.dll:Photon.Pun.
 fb6a1ea36b4f6ef5948d283d93760765 UnityEngine.GoogleAudioSpatializer.dll:UnityEngine.Experimental.Audio.Google.GvrAudioRoom
 5b0391b7e3d9ea9db6c0a8fbd0ca23f6 UnityEngine.GoogleAudioSpatializer.dll:UnityEngine.Experimental.Audio.Google.GvrAudioSoundfieldExtension
 5b0391b7e3d9ea9db6c0a8fbd0ca23f6 UnityEngine.GoogleAudioSpatializer.dll:UnityEngine.Experimental.Audio.Google.GvrAudioSourceExtension
-5093e623a625ff39bea71bd02d14e940 Assembly-CSharp.dll:.AdventureEvent
+8fa680056fb1253fd513448ee16b5815 Assembly-CSharp.dll:.AdventureEvent
 2d1ff6c6099e6f27d0c8cd42c1d0ae59 Assembly-CSharp.dll:.CharacterMage
 6db8b0953d90a5c5d6bd548de3be58ef Assembly-CSharp.dll:.SpriteOrderBehaviour
 9db963832ef7feebd35f44e6ad6f646c PhotonUnityNetworking.Utilities.dll:Photon.Pun.UtilityScripts.OnJoinedInstantiate
@@ -228,6 +228,6 @@ d9864ada3db659b8d6f66a20aff414b3 PhotonUnityNetworking.dll:Photon.Pun.PhotonView
 8649814970b42d345b89944b862453cc Unity.TextMeshPro.dll:TMPro.TMP_SubMesh
 87207d40b89ca632396b05b3cb1e69b0 PhotonUnityNetworking.Utilities.dll:Photon.Pun.UtilityScripts.PlayerNumbering
 5e75d0af32af96e057b4ca8a56f2ef67 Assembly-CSharp.dll:.ObjectIndex
-2a9e8d18832b6ad772ec3e2bed9d9abe Assembly-CSharp.dll:.EnemyManager
+420d4ed34aafe29126584d1a335b06e9 Assembly-CSharp.dll:.EnemyManager
 4fb10ee25ec864c6bc038c2a00edace9 Assembly-CSharp.dll:.LobbyView
 c8283c7732e3b6aa70d28f1fed4430ca PhotonUnityNetworking.Utilities.dll:Photon.Pun.UtilityScripts.CountdownTimer

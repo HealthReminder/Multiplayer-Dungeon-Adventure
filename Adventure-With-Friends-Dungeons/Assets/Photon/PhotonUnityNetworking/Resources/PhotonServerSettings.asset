@@ -74,5 +74,6 @@ MonoBehaviour:
   - RPC_AddEntry
   - RPC_EndEncounter
   - RPC_NewEvent
+  - RPC_HitEnemy
   DisableAutoOpenWizard: 1
   ShowSettings: 1
