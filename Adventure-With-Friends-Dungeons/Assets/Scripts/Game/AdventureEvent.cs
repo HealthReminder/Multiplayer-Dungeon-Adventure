@@ -37,7 +37,9 @@ using UnityEngine;
             stop.stop_container.SetActive(false);
             //Turn enemies off
             foreach (Enemy e in enemies)
-                    e.sprt_renderer.color += new Color(0,0,0,-1);
+                foreach (SpriteRenderer s in e.sprt_renderers)
+                    s.color += new Color(0,0,0,-1);
+                    
             //Turn particles off
             foreach (ParticleSystem p in particles)
                 p.Stop();
@@ -57,9 +59,10 @@ using UnityEngine;
             //Show Enemies
             if(enemies != null)
                 if(enemies.Length > 0)
-                    while(enemies[0].sprt_renderer.color.a < 1)   {
+                    while(enemies[0].sprt_renderers[0].color.a < 1)   {
                         foreach (Enemy e in enemies)
-                            e.sprt_renderer.color += new Color(0,0,0,0.01f*step);
+                            foreach (SpriteRenderer s in e.sprt_renderers)
+                                s.color += new Color(0,0,0,0.01f*step);
                         yield return null;
                     }
 
@@ -76,9 +79,10 @@ using UnityEngine;
             //Fade out enemies
             if(enemies != null)
                 if(enemies.Length > 0)
-                    while(enemies[0].sprt_renderer.color.a > 0)   {
+                    while(enemies[0].sprt_renderers[0].color.a > 0)   {
                         foreach (Enemy e in enemies)
-                            e.sprt_renderer.color += new Color(0,0,0,-0.01f*step);
+                            foreach (SpriteRenderer s in e.sprt_renderers)
+                                s.color += new Color(0,0,0,-0.01f*step);
                         yield return null;
                     }
             //Fade out sprites

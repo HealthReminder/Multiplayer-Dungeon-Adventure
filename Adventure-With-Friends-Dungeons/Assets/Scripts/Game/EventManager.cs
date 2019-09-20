@@ -62,11 +62,11 @@ public class EventManager : MonoBehaviour
             yield return bv.ToggleMovementRoutine(0,1);
             if(current_stop.enemies != null)
                 if(current_stop.enemies.Length > 0)
-                    EnemyManager.instance.UpdateState(current_stop.enemies,true);
+                    EnemyManager.instance.NewCombat(current_stop.enemies,true);
             yield return current_event_adventure.ToggleStopRoutine(current_event_adventure.stops[i],1,true);
             yield return new WaitForSeconds(15);
             yield return current_event_adventure.ToggleStopRoutine(current_event_adventure.stops[i],1,false);
-            EnemyManager.instance.UpdateState(current_stop.enemies,false);
+            EnemyManager.instance.NewCombat(current_stop.enemies,false);
         }
         //GameManager.instance.TogglePlayersCombat(true);
         //yield return new WaitForSeconds(10);

@@ -14,7 +14,7 @@ public class EnemyManager : MonoBehaviour
     public Transform enemy_container;
     public PhotonView photon_view;
     
-    public void UpdateState(Enemy[] new_enemies, bool is_on) {
+    public void NewCombat(Enemy[] new_enemies, bool is_on) {
         data.current_enemies = new_enemies;
         data.in_combat = is_on;
         if(is_on)
@@ -51,12 +51,17 @@ public class EnemyManager : MonoBehaviour
     }
     #endregion
     IEnumerator HandleCombat() {
+        foreach (Enemy e in data.current_enemies)
+            e.current_stats.is_awakened = true;
         GameManager.instance.TogglePlayersCombat(true);
         while(data.in_combat) {
             
             yield return null;
         }
+        foreach (Enemy e in data.current_enemies)
+            e.current_stats.is_awakened = false;
         GameManager.instance.TogglePlayersCombat(false);
+        
         yield break;
     }
     void OrganizeEnemies() {
