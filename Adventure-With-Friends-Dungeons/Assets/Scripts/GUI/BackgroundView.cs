@@ -29,7 +29,6 @@ public class BackgroundView : MonoBehaviour
         is_moving = false;
         yield return null;
         is_moving = true;
-        
         if(current_speed < target_speed){
             while(current_speed < target_speed && is_moving) {
                 current_speed+=step*Time.deltaTime;

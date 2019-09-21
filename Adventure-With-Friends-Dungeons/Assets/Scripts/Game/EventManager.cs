@@ -57,8 +57,10 @@ public class EventManager : MonoBehaviour
         {
             current_place = i;
             Stop current_stop = current_event_adventure.stops[i];
+            GameManager.instance.TogglePlayersMovement(true);
             yield return bv.ToggleMovementRoutine(0.5f,1);
             yield return new WaitForSeconds(1*current_stop.distance);
+            GameManager.instance.TogglePlayersMovement(false);
             yield return bv.ToggleMovementRoutine(0,1);
             if(current_stop.enemies != null)
                 if(current_stop.enemies.Length > 0)

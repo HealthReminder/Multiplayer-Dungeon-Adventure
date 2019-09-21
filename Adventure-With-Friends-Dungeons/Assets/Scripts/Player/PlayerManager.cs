@@ -32,7 +32,7 @@ using UnityEngine.UI;
     public PhotonView photon_view;  
     public PlayerView player_view;
     public Camera player_camera;
-    Character selected_character;
+    public Character selected_character;
     private void Start() {
         if(!photonView.IsMine) 
             return;

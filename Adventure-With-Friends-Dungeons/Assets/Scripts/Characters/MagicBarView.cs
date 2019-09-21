@@ -13,15 +13,16 @@ public class MagicBarView : MonoBehaviour
     public bool is_enabled = false;
     public int cap = 13;
     public int current_value = 0;
+    public CharacterMage character;
     public Image filler_image;
     public Button roll_button,attack_button;
+    
     private void Awake() {
         Reset(false);
     }
     public void RollDice() {
         if(!is_enabled)
             return;
-
         int roll = Random.Range(1,7);
 
         current_value+= roll;
@@ -32,6 +33,7 @@ public class MagicBarView : MonoBehaviour
             OnJackpot();
         else 
             GUI_Update();
+        OnRollDice();
     }
 #region GUI
     void GUI_Update() {
@@ -60,6 +62,8 @@ public class MagicBarView : MonoBehaviour
         if(!is_enabled)
             return;
         GUI_Attack();
+        character.OnCharge(false);
+        character.OnAttack();
         is_enabled = false;
         EnemyManager.instance.DealDamageRandom(current_value);
         StartCoroutine(TurnOnCooldown(1.5f));
@@ -70,8 +74,13 @@ public class MagicBarView : MonoBehaviour
     void OnOverflow() {
         is_enabled = false;
         GUI_Overflow();
+        character.OnFail();
         StartCoroutine(TurnOnCooldown(3));
         Debug.Log("Mage overflowed its power.");
+    }
+    void OnRollDice() {
+        Debug.Log("Mage rolled a dice.");
+        character.OnCharge(true);
     }
     IEnumerator TurnOnCooldown(float time){
         yield return new WaitForSeconds(time);
@@ -80,6 +89,8 @@ public class MagicBarView : MonoBehaviour
     }
     void OnJackpot() {
         is_enabled = false;
+        character.OnCharge(false);
+        character.OnAttack();
         GUI_JackPot();
         is_enabled = false;
         EnemyManager.instance.DealDamageRandom(current_value*2);
@@ -94,7 +105,7 @@ public class MagicBarView : MonoBehaviour
         GUI_ToggleInput(state);
         is_enabled = state;
         is_on = state;
-        Debug.Log("Mage overflowed its power.");
+        character.OnFail();
     }
 #endregion
 }

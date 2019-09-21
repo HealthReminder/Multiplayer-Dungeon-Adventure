@@ -42,6 +42,12 @@ using UnityEngine;
     
 #region Loop
     //MIDDLE - DURING THE ADVENTURE
+    public void TogglePlayersMovement(bool is_on) {
+        foreach (PlayerManager p in listOfPlayersPlaying)
+        {
+            p.selected_character.ToggleWalk(is_on);
+        }
+    }
     public void TogglePlayersCombat(bool is_on) {
         photon_view.RPC("RPC_TogglePlayersCombat",RpcTarget.All,BitConverter.GetBytes(is_on));
     }
