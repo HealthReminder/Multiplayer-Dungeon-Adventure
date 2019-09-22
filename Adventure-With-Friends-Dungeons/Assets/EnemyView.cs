@@ -15,24 +15,27 @@ public class EnemyView : MonoBehaviour
     [SerializeField]UnityEvent on_hit;
     [SerializeField]UnityEvent on_dead;
     private void Update() {
-        if(Input.GetKeyDown(KeyCode.U))
-            OnDie();
-        if(Input.GetKeyDown(KeyCode.I))
-            OnAwaken();
-        if(Input.GetKeyDown(KeyCode.O))
-            OnDie();
+        //if(Input.GetKeyDown(KeyCode.U))
+        //    OnAwaken();
+        //if(Input.GetKeyDown(KeyCode.I))
+        //    OnHit();
+        //if(Input.GetKeyDown(KeyCode.O))
+        //    OnDie();
     }
     public void OnAwaken() {
         animator.SetTrigger("is_aroused");
-        on_awakened.Invoke();
+        if(on_awakened != null)
+            on_awakened.Invoke();
     }
     public void OnHit() {
         animator.SetTrigger("is_hit");
-        on_hit.Invoke();
+        if(on_hit != null)
+            on_hit.Invoke();
     }
     public void OnDie(){
         animator.SetTrigger("is_dead");
-        on_dead.Invoke();
+        if(on_dead != null)
+            on_dead.Invoke();
     }
     
 }

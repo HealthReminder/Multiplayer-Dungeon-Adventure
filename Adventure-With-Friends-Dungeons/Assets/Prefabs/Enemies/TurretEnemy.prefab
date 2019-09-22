@@ -66,8 +66,8 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 0
-  m_SortingLayer: 0
+  m_SortingLayerID: 938309057
+  m_SortingLayer: 2
   m_SortingOrder: 0
   m_Sprite: {fileID: 21300002, guid: 3c3a1e8895ea8c242a1de6ecc62d177c, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -145,8 +145,8 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 0
-  m_SortingLayer: 0
+  m_SortingLayerID: 938309057
+  m_SortingLayer: 2
   m_SortingOrder: 24
   m_Sprite: {fileID: 21300006, guid: 3c3a1e8895ea8c242a1de6ecc62d177c, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -232,18 +232,7 @@ MonoBehaviour:
       Culture=neutral, PublicKeyToken=null
   on_hit:
     m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 7393038174759435034}
-        m_MethodName: SetAnimation
-        m_Mode: 5
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: is_hit
-          m_BoolArgument: 0
-        m_CallState: 2
+      m_Calls: []
     m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine.CoreModule, Version=0.0.0.0,
       Culture=neutral, PublicKeyToken=null
   on_dead:
@@ -375,8 +364,8 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 0
-  m_SortingLayer: 0
+  m_SortingLayerID: 938309057
+  m_SortingLayer: 2
   m_SortingOrder: -16
   m_Sprite: {fileID: 21300010, guid: 3c3a1e8895ea8c242a1de6ecc62d177c, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}

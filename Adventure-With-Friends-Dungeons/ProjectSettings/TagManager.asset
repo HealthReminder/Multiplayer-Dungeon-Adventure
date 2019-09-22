@@ -44,3 +44,12 @@ TagManager:
   - name: Default
     uniqueID: 0
     locked: 0
+  - name: Places
+    uniqueID: 4048084379
+    locked: 0
+  - name: Enemies
+    uniqueID: 938309057
+    locked: 0
+  - name: Player
+    uniqueID: 1677699637
+    locked: 0
