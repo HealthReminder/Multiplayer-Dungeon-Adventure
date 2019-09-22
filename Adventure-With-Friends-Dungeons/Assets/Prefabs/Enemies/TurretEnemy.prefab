@@ -240,6 +240,10 @@ MonoBehaviour:
       m_Calls: []
     m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine.CoreModule, Version=0.0.0.0,
       Culture=neutral, PublicKeyToken=null
+  sprites:
+  - {fileID: 7393038173737532133}
+  - {fileID: 7393038173855986877}
+  - {fileID: 7393038175189925441}
 --- !u!1 &7393038174786387446
 GameObject:
   m_ObjectHideFlags: 0

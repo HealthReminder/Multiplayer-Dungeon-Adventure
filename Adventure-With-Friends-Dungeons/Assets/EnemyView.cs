@@ -14,6 +14,7 @@ public class EnemyView : MonoBehaviour
     [SerializeField]UnityEvent on_awakened;
     [SerializeField]UnityEvent on_hit;
     [SerializeField]UnityEvent on_dead;
+    public SpriteRenderer[] sprites;
     private void Update() {
         //if(Input.GetKeyDown(KeyCode.U))
         //    OnAwaken();
@@ -36,6 +37,18 @@ public class EnemyView : MonoBehaviour
         animator.SetTrigger("is_dead");
         if(on_dead != null)
             on_dead.Invoke();
+        StartCoroutine(FadeOut(1));
+    }
+    IEnumerator FadeOut(float delay) {
+        yield return new WaitForSeconds(delay);
+        if(sprites!=null)
+            if(sprites.Length > 0)
+            while(sprites[0].color.a > 0) {
+                foreach (SpriteRenderer s in sprites)
+                    s.color += new Color(0,0,0,-0.01f);
+                yield return null;
+            }
+        yield break;
     }
     
 }
